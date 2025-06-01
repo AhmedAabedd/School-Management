@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="view_test_tree" model="ir.ui.view">
+        <field name="name">school.test.tree</field>
+        <field name="model">school.test</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="formation_id"/>
+                <field name="group_id"/>
+                <field name="date"/>
+                <field name="max_score"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_test_form" model="ir.ui.view">
+        <field name="name">school.test.form</field>
+        <field name="model">school.test</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="formation_id"/>
+                            <field name="group_id"/>
+                            <field name="date" placeholder="MM/DD/YYYY"/>
+                            <field name="max_score"/>
+                        </group>
+                        <group string="SCORE STATS">
+                            <field name="high_score"/>
+                            <field name="low_score"/>
+                            <field name="avg_score"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group></group>
+                        <group string="TEST STATS">
+                            <field name="total_students"/>
+                            <field name="total_passed"/>
+                            <field name="total_failed"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Results">
+                            <field name="result_ids">
+                                <tree editable="bottom">
+                                    <field name="test_id" invisible="0"/>
+                                    <field name="student_id"/>
+                                    <field name="score"/>
+                                    <field name="rank"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+
+    <!--this is Test action-->
+    <record id="action_school_test" model="ir.actions.act_window">
+        <field name="name">Our Tests</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.test</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new test!  
+            </p>
+        </field>
+    </record>
+
+</odoo>

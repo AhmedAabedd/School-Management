@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_classe_form" model="ir.ui.view">
+        <field name="name">school.classe.form</field>
+        <field name="model">school.classe</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="level_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_relation_form" model="ir.ui.view">
+        <field name="name">responsible.relation.form</field>
+        <field name="model">responsible.relation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_subject_form" model="ir.ui.view">
+        <field name="name">school.subject.form</field>
+        <field name="model">school.subject</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_level_form" model="ir.ui.view">
+        <field name="name">school.level.form</field>
+        <field name="model">school.level</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="academic_year_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_school_year_form" model="ir.ui.view">
+        <field name="name">school.year.form</field>
+        <field name="model">school.year</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="start_date" placeholder="MM/DD/YYYY"/>
+                        <field name="end_date" placeholder="MM/DD/YYYY"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_school_group_form" model="ir.ui.view">
+        <field name="name">school.group.form</field>
+        <field name="model">school.group</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="subject_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_responsible_job_form" model="ir.ui.view">
+        <field name="name">responsible.job.form</field>
+        <field name="model">responsible.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_responsible_civility_form" model="ir.ui.view">
+        <field name="name">responsible.civility.form</field>
+        <field name="model">responsible.civility</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_school_familysituation_form" model="ir.ui.view">
+        <field name="name">school.familysituation.form</field>
+        <field name="model">school.familysituation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--<record id="view_school_product_form" model="ir.ui.view">
+        <field name="name">school.product.form</field>
+        <field name="model">school.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="unit_price"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>-->
+
+    <!--this is classe action-->
+    <record id="action_school_classe" model="ir.actions.act_window">
+        <field name="name">Our classes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.classe</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new classe !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is relation action-->
+    <record id="action_responsible_relation" model="ir.actions.act_window">
+        <field name="name">Our relations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">responsible.relation</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new relation !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is subject action-->
+    <record id="action_school_subject" model="ir.actions.act_window">
+        <field name="name">Our subjects</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.subject</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new subject !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is level action-->
+    <record id="action_school_level" model="ir.actions.act_window">
+        <field name="name">Our levels</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.level</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new level !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is school year action-->
+    <record id="action_school_year" model="ir.actions.act_window">
+        <field name="name">Our school years</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.year</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new school year !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is job action-->
+    <record id="action_responsible_job" model="ir.actions.act_window">
+        <field name="name">Our responsibles jobs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">responsible.job</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new responsible job !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is group action-->
+    <record id="action_school_group" model="ir.actions.act_window">
+        <field name="name">Our Groups</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.group</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Group !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is civility action-->
+    <record id="action_responsible_civility" model="ir.actions.act_window">
+        <field name="name">Our Civilitys</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">responsible.civility</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Civility !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is familysituation action-->
+    <record id="action_school_familysituation" model="ir.actions.act_window">
+        <field name="name">Our family situations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.familysituation</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!-- default Group by and Filter -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new family situation!  
+            </p>
+        </field>
+    </record>
+
+    <!--this is product action->
+    <record id="action_school_product" model="ir.actions.act_window">
+        <field name="name">Our Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.product</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context"></field>        <!- default Group by and Filter ->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new product!  
+            </p>
+        </field>
+    </record>-->
+
+
+
+</odoo>

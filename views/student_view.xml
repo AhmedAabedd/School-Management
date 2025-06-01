@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- this is a TREE VIEW -->
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">school.student.tree</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="student_name"/>
+                <field name="responsible_id"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- this is a FORM VIEW -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">school.student.form</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="student_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="student_name"/>
+                    </group>
+                    <notebook>
+                        <page name="student_general_info" string="General Information">
+                            <group>
+                                <group name="identify" string="IDENTIFY">
+                                    <field name="gender"/>
+                                    <field name="birth_date" placeholder="MM/DD/YYYY"/>
+                                    <field name="age" force_save="1" readonly="1"/>
+                                    <field name="phone"/>
+                                    <field name="mail"/>
+                                </group>
+                                <group name="student_school_info" string="SCHOOL INFORMATION">
+                                    <field name="birth_country_id"/>
+                                    <field name="birth_state_id"/>
+                                    <field name="use_responsible_address" widget="boolean_toggle"/>
+                                    <field name="nationality" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
+                                    <field name="city_id" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
+                                    <field name="zip" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
+                                    <field name="street" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group name="student_responsible" string="RESPONSIBLE">
+                                    <field name="responsible_id"/>
+                                    <field name="relation_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="academic_info" string="Academic Information">
+                            <group>
+                                <group>
+                                    <field name="academic_year_id"/>
+                                    <field name="level_id"/>
+                                    <field name="class_id"/>
+                                    <field name="group_id"/>
+                                    <field name="admission_date" placeholder="MM/DD/YYYY"/>
+                                </group>
+                                <group>
+                                    <field name="maternal_language"/>
+                                    <field name="previous_school"/>
+                                    <field name="release_date" placeholder="MM/DD/YYYY"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="academic_career" string="Academic Career">
+                            <field name="school_history_ids">
+                                <tree editable="bottom">
+                                    <field name="refers_to" invisible="1"/>
+                                    <field name="student_id" invisible="1"/>
+                                    <field name="school_year_id"/>
+                                    <field name="level_id"/>
+                                    <field name="class_id"/>
+                                    <field name="state"/>
+                                    <field name="annual_average"/>
+                                    <field name="rank"/>
+                                    <field name="certificate_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="student_skill" string="Skills">
+                            <group>
+                                <field name="skill"/>
+                            </group>
+                        </page>
+                        <page name="Second Responsibles" String="Second Responsibles">
+                            <field name="second_responsible_ids">
+                                <tree>
+                                    <field name="parent_name"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <!--<page name="Second Responsible" String="Second Responsible">
+                            <group>
+                                <field name="second_responsible_id"/>
+                            </group> 
+                        </page>-->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <!--this is student action-->
+    <record id="action_school_student" model="ir.actions.act_window">
+        <field name="name">Our students</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.student</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{'is_student_action': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new student !  
+            </p>
+        </field>
+    </record>
+</odoo>

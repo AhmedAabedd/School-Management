@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record id="view_parent_tree" model="ir.ui.view">
+        <field name="name">school.parent.tree</field>
+        <field name="model">school.parent</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="parent_name"/>
+                <field name="phone"/>
+                <field name="personnal_adress"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- FORM VIEW -->
+    <record id="view_parent_form" model="ir.ui.view">
+        <field name="name">school.parent.form</field>
+        <field name="model">school.parent</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="parent_name"/>
+                        <field name="is_second_responsible" widget="boolean_toggle" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page name="parent_general_info" string="General Information">
+                            <group>
+                                <group>
+                                    <field name="civility_id"/>
+                                    <field name="job" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="establishment" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="mail" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="phone"/>
+                                    <field name="personnal_adress" />
+                                </group>
+                                <group>
+                                    <field name="nationality" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="city_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="zip" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="street" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="work_adress"/>
+                                    <field name="family_situation_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="Children" attrs="{'invisible':[('is_second_responsible','=',True)]}">
+                            <field name="main_children_ids">
+                                <tree>
+                                    <field name="student_name"/>
+                                    <field name="second_responsible_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="Children" attrs="{'invisible':[('is_second_responsible','=',False)]}">
+                            <field name="second_children_ids">
+                                <tree>
+                                    <field name="student_name"/>
+                                    <field name="responsible_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <!--this is parent action-->
+    <record id="action_school_parent" model="ir.actions.act_window">
+        <field name="name">Our parents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.parent</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('is_second_responsible','=',False)]</field>
+        <field name="context"></field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new parent !  
+            </p>
+        </field>
+    </record>
+
+</odoo>

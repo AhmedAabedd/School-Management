@@ -1,0 +1,16 @@
+*.pyc
+*.pyo
+*.~*
+*.swp
+*.swo
+__pycache__/
+.idea/
+.vscode/
+*.log
+*.db
+*.bak
+*.zip
+.env
+.DS_Store
+addons/*/node_modules/
+addons/*/static/lib/

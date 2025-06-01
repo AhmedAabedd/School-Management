@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--this is item action-->
+    <record id="action_school_product_item" model="ir.actions.act_window">
+        <field name="name">Our Items</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.product</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('product_type','=','item')]</field>
+        <field name="context">{'from_product_item': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new item !  
+            </p>
+        </field>
+    </record>
+
+</odoo>

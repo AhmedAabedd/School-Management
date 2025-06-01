@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_school_student,access.school.student,model_school_student,,1,1,1,1
+access_school_parent,access.school.parent,model_school_parent,,1,1,1,1
+access_school_teacher,access.school.teacher,model_school_teacher,,1,1,1,1
+access_school_year,access.school.year,model_school_year,,1,1,1,1
+access_school_subject,access.school.subject,model_school_subject,,1,1,1,1
+access_school_level,access.school.level,model_school_level,,1,1,1,1
+access_school_classe,access.school.classe,model_school_classe,,1,1,1,1
+access_responsible_job,access.responsible.job,model_responsible_job,,1,1,1,1
+
+access_responsible_relation,access.responsible.relation,model_responsible_relation,,1,1,1,1
+access_school_group,access.school.group,model_school_group,,1,1,1,1
+access_responsible_civility,access.responsible.civility,model_responsible_civility,,1,1,1,1
+access_school_familysituation,access.school.familysituation,model_school_familysituation,,1,1,1,1
+access_school_history,access.school.history,model_school_history,,1,1,1,1

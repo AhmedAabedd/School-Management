@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_school_second_responsible" model="ir.actions.act_window">
+        <field name="name">Our Second Responsibles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.parent</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('is_second_responsible','=',True)]</field>
+        <field name="context">{'from_second_responsible': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Second Responsible !  
+            </p>
+        </field>
+    </record>
+
+</odoo>

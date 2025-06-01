@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_product_form" model="ir.ui.view">
+        <field name="name">school.product.form</field>
+        <field name="model">school.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" attrs="{'invisible':[('product_type','=','program')]}"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group> 
+                        <field name="name"/>
+                        <field name="reference"/>
+                        <field name="product_type" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page name="product_infos" string="Informations">
+                            <group>
+                                <group>
+                                    <field name="program_category_id" attrs="{'invisible':[('product_type','=','item')]}"/>
+                                    <field name="item_type" attrs="{'invisible':[('product_type','=','program')]}"/>
+                                    <field name="unit_price"/>
+                                    <field name="duration_hours" attrs="{'invisible':[('product_type','=','item')]}"/>
+                                    <field name="duration_weeks" attrs="{'invisible':[('product_type','=','item')]}"/>
+                                    <field name="quantity" attrs="{'invisible':[('product_type','=','program')]}"/>
+                                </group>
+                                <group>
+                                    <field name="active"/>
+                                    <field name="description"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_product_tree" model="ir.ui.view">
+        <field name="name">school.product.tree</field>
+        <field name="model">school.product</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="product_type"/>
+                <field name="quantity" attrs="{'invisible': [('product_type', '=', 'program')]}" 
+                                       decoration-danger="state == 'out_of_stock'" 
+                                       decoration-success="state == 'available'"/>
+                <field name="state" attrs="{'invisible': [('product_type', '=', 'program')]}" 
+                                    decoration-danger="state == 'out_of_stock'" 
+                                    decoration-success="state == 'available'"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <!--this is product action-->
+    <!--<record id="action_school_product" model="ir.actions.act_window">
+        <field name="name">Our products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.product</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain"></field>
+        <field name="context"></field>        <!- default Group by and Filter-
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new product !  
+            </p>
+        </field>
+    </record>-->
+
+</odoo>
