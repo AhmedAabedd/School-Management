@@ -14,3 +14,5 @@ from . import school_history
 from . import school_product
 from . import school_attendance
 from . import school_test
+from . import school_sale_order
+from . import school_enrollment

@@ -20,7 +20,7 @@
                         <page name="product_infos" string="Informations">
                             <group>
                                 <group>
-                                    <field name="program_category_id" attrs="{'invisible':[('product_type','=','item')]}"/>
+                                    <field name="subject_id" attrs="{'invisible':[('product_type','=','item')]}"/>
                                     <field name="item_type" attrs="{'invisible':[('product_type','=','program')]}"/>
                                     <field name="unit_price"/>
                                     <field name="duration_hours" attrs="{'invisible':[('product_type','=','item')]}"/>

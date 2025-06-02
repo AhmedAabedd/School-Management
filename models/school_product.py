@@ -21,12 +21,12 @@ class SchoolProduct(models.Model):
             ('item', 'Item'),
         ], string='Type', required=True
     )
-    unit_price = fields.Float(string="Price (DT)")
+    unit_price = fields.Float(string="Unit Price")
     description = fields.Text(string="Description")
     active = fields.Boolean(string="Active", default=True)
     
     #For Program
-    program_category_id = fields.Many2one('school.subject', string="Category")
+    subject_id = fields.Many2one('school.subject', string="Category")
     #program_categorys = fields.Selection([('robotic', 'Robotics'),('python', 'Python'),('scratch', 'Scratch')], string='Category')
     duration_hours = fields.Float(string="Total hours")
     duration_weeks = fields.Integer(string="Total weeks")

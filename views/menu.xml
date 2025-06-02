@@ -6,8 +6,6 @@
             name="School"
             sequence="10"/>
 
-
-
 <!--Students-->
     <menuitem id="menu_student_root"
             name="Students"
@@ -86,6 +84,12 @@
             action="action_school_product_item"
             sequence="20"/>
 
+    <menuitem id="menu_sale_order"
+            name="Sale Orders"
+            parent="menu_product_root"
+            action="action_school_sale_order"
+            sequence="30"/>
+   
 <!--Configuration-->
     <menuitem id="menu_Configuration_root"
             name="Configuration"

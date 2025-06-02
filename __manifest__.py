@@ -25,6 +25,7 @@
              'views/item_view.xml',
              'views/attendance_view.xml',
              'views/test_view.xml',
+             'views/sale_order_view.xml',
              'views/menu.xml'
     ],
     'demo': [],
