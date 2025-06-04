@@ -14,19 +14,17 @@ class SchoolSaleOrder(models.Model):
 
     name = fields.Char(string="Reference", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
-    parent_id = fields.Many2one('school.parent', string='Parent name', required=True)
+    parent_id = fields.Many2one('school.parent', string='Parent name', required=True,
+                                domain="[('is_second_responsible', '=', False)]")
     
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
         ('paid', 'Paid'),
+        ('cancelled', 'Cancelled')
     ], default='draft', string="Status", tracking=True)
 
-    amount_total = fields.Float(
-        string="Total",
-        compute="_compute_amount_total",
-        store=True
-    )
+    amount_total = fields.Float(string="Total", compute="_compute_amount_total", store=True)
 
     order_lines_ids = fields.One2many(
         'school.saleorderline',
@@ -36,13 +34,9 @@ class SchoolSaleOrder(models.Model):
 
 
 
-    #Generate auto sequence(name)
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('school.saleorder.sequence') or _('New')
-        res = super(SchoolSaleOrder , self).create(vals)
-        return res
+    
+
+    ####################### STATE ACTIONS ############################################
 
     def action_confirm(self):
         for rec in self:
@@ -59,6 +53,24 @@ class SchoolSaleOrder(models.Model):
     def action_paid(self):
         for rec in self:
             rec.state = 'paid'
+    
+    def action_draft(self):
+        for rec in self:
+            rec.state = 'draft'
+    
+    def action_cancel(self):
+        for rec in self:
+            rec.state = 'cancelled'
+
+    ##########################################################################################
+    
+    #Generate auto sequence(name)
+    @api.model
+    def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code('school.saleorder.sequence') or _('New')
+        res = super(SchoolSaleOrder , self).create(vals)
+        return res
     
     @api.depends('order_lines_ids.total')
     def _compute_amount_total(self):

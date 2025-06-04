@@ -60,6 +60,7 @@ class SchoolProduct(models.Model):
         elif self.env.context.get('from_product_program'):
             defaults['product_type'] = 'program'
         return defaults
+    #note : api.model tekhdem ki tenzel aala create
     
     #Change state depending on quantity
     @api.depends('quantity')

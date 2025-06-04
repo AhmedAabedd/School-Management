@@ -40,7 +40,7 @@ class SchoolStudent(models.Model):
     responsible_id = fields.Many2one(
         "school.parent",
         string="Responsibe Name",
-        domain="[('is_second_responsible','=',False)]",
+        domain="[('is_second_responsible', '=', False)]",
         required=True
     )
     relation_id = fields.Many2one('responsible.relation', string="Relation")
