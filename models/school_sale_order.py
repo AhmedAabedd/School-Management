@@ -26,15 +26,21 @@ class SchoolSaleOrder(models.Model):
 
     amount_total = fields.Float(string="Total", compute="_compute_amount_total", store=True)
 
+    currency_id = fields.Many2one('res.currency', string="Currency", default=lambda self: self.env.company.currency_id)
+
     order_lines_ids = fields.One2many(
         'school.saleorderline',
         'sale_order_id'
     )
 
+    ################ TO CHECK SALE ORDER CREATION ORIGIN  #########################################
 
+    from_parent_form = fields.Boolean(string="From Parent Form", readonly=True)
 
+    #def _compute_from_parent_form(self):
+        #for rec in self:
+            #rec.from_parent_form = bool(self.env.context.get('from_parent_form'))
 
-    
 
     ####################### STATE ACTIONS ############################################
 
@@ -46,8 +52,9 @@ class SchoolSaleOrder(models.Model):
             #rec.state = 'confirmed'
             for line in rec.order_lines_ids:
                 if line.quantity > line.item_id.quantity:
-                    raise ValidationError(_("Not enough stock!"))
+                    raise ValidationError(_(f"Not enough stock for ({line.item_id})!"))
                 line.item_id.quantity -= line.quantity
+                line.aux = line.quantity
             rec.state = 'confirmed'
 
     def action_paid(self):
@@ -60,6 +67,9 @@ class SchoolSaleOrder(models.Model):
     
     def action_cancel(self):
         for rec in self:
+            for line in self.order_lines_ids:
+                line.item_id.quantity += line.aux
+                line.aux = 0
             rec.state = 'cancelled'
 
     ##########################################################################################
@@ -101,8 +111,10 @@ class SaleOrderLine(models.Model):
     unit_price = fields.Float(related='item_id.unit_price', store=True)
     #available_quantity = fields.Integer(related='item_id.quantity', store=True)
 
-    quantity = fields.Integer(string="Quantity", default=1)
-    total = fields.Float(string="Total (DT)", compute="_compute_line_total", store=True)
+    quantity = fields.Integer(string="Quantity", default=0)
+    total = fields.Float(string="Subtotal", compute="_compute_line_total", store=True)
+
+    aux = fields.Integer(string='Aux', default=0)
 
 
     @api.onchange('item_type')
@@ -127,4 +139,12 @@ class SaleOrderLine(models.Model):
                     }
                 }
 
+    #disallowing deleting records when sale order is confirmed or paid
+    def unlink(self):
+        for rec in self:
+            if rec.sale_order_id.state == "confirmed":
+                raise ValidationError(_("You cannot delete order line when sale order is confirmed!"))
+            if rec.sale_order_id.state == "paid":
+                raise ValidationError(_("You cannot delete order line when sale order is paid!"))
+            return super(SaleOrderLine, self).unlink()
     

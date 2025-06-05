@@ -34,6 +34,12 @@ class SchoolParent(models.Model):
     #children_ids = fields.One2many('school.student', 'responsible_id', string="Childrens Lines")
 
     #second_responsible_ids = fields.One2many('school.secondresponsible', 'main_responsible_id', string="Second Responsible")
+
+    sale_order_ids = fields.One2many(
+        'school.saleorder',
+        'parent_id',
+        domain="[('parent_id', '=', id)]"
+    )
     
 
 
@@ -114,3 +120,17 @@ class SchoolParent(models.Model):
                 raise ValidationError(_("Age cannot be negative or null !"))
 
 ########################################################################################################
+
+    #calling default "create" action of sale order model
+    def create_sale_order(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Create Sale Order',
+            'res_model': 'school.saleorder',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_parent_id': self.id,
+                'default_from_parent_form': True,
+            }
+        }

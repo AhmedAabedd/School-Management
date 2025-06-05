@@ -22,8 +22,8 @@
                         <h1><field name="name"/></h1>
                     </div>
                     <group>
-                        <field name="parent_id"/>
-                        <field name="state" readonly="1"/>
+                        <field name="from_parent_form" invisible="1"/>
+                        <field name="parent_id" attrs="{'readonly': [('from_parent_form', '=', True)]}"/>
                     </group>
                     <notebook>
                         <page string="Order Lines">
@@ -36,11 +36,16 @@
                                     <field name="total"/>
                                 </tree>
                             </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_value h2"/>
+                            </group> 
                         </page>
-                    </notebook>
-                    <group>
-                        <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_right"/>
-                    </group>    
+                        <page string="Other Infos">
+                            <group>
+                                <field name="currency_id"/>
+                            </group>
+                        </page>
+                    </notebook>   
                 </sheet>
                 <!--<footer>
                     <group>

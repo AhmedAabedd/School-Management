@@ -69,6 +69,18 @@
                                 </tree>
                             </field>
                         </page>
+                        <page name="Sale Orders" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                            <field name="sale_order_ids">
+                                <tree create="0" edit="0">
+                                    <field name="parent_id"/>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="amount_total"/>
+                                </tree>
+                            </field>
+                            <!--<button name="%(action_create_saleorder)d" string="Create sale order" type="action" class="oe_highlight"/>-->
+                            <button name="create_sale_order" string="Create sale order" type="object" class="oe_highlight"/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
