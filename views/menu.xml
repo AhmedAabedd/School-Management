@@ -12,17 +12,17 @@
             parent="menu_school_root"
             sequence="10"/>
     
-    <menuitem id="menu_student"
-            name="Students"
-            parent="menu_student_root"
-            action="action_school_student"
-            sequence="10"/>
-        
-    <menuitem id="menu_attendance"
-            name="Attendances"
-            parent="menu_student_root"
-            action="action_school_attendance"
-            sequence="20"/>
+        <menuitem id="menu_student"
+                name="Students"
+                parent="menu_student_root"
+                action="action_school_student"
+                sequence="10"/>
+                
+        <menuitem id="menu_attendance"
+                name="Attendances"
+                parent="menu_student_root"
+                action="action_school_attendance"
+                sequence="20"/>
 
 <!--Parents-->
     <menuitem id="menu_parent_root"
@@ -30,17 +30,17 @@
             parent="menu_school_root"
             sequence="20"/>
     
-    <menuitem id="menu_parent"
-            name="Parents"
-            parent="menu_parent_root"
-            action="action_school_parent"
-            sequence="10"/>
+        <menuitem id="menu_parent"
+                name="Parents"
+                parent="menu_parent_root"
+                action="action_school_parent"
+                sequence="10"/>
 
-    <menuitem id="menu_second_responsible"
-            name="Second Responsibles"
-            parent="menu_parent_root"
-            action="action_school_second_responsible"
-            sequence="20"/>
+        <menuitem id="menu_second_responsible"
+                name="Second Responsibles"
+                parent="menu_parent_root"
+                action="action_school_second_responsible"
+                sequence="20"/>
 
 <!--Teachers-->
     <menuitem id="menu_teacher_root"
@@ -48,11 +48,11 @@
             parent="menu_school_root"
             sequence="30"/>
     
-    <menuitem id="menu_teacher"
-            name="Teachers"
-            parent="menu_teacher_root"
-            action="action_school_teacher"
-            sequence="10"/>
+        <menuitem id="menu_teacher"
+                name="Teachers"
+                parent="menu_teacher_root"
+                action="action_school_teacher"
+                sequence="10"/>
 
 <!--Tests-->
     <menuitem id="menu_test_root"
@@ -60,11 +60,17 @@
             parent="menu_school_root"
             sequence="40"/>
     
-    <menuitem id="menu_test"
-            name="Tests"
-            parent="menu_test_root"
-            action="action_school_test"
-            sequence="10"/>
+        <menuitem id="menu_test"
+                name="Tests"
+                parent="menu_test_root"
+                action="action_school_test"
+                sequence="10"/>
+
+        <menuitem id="menu_result"
+                name="Results"
+                parent="menu_test_root"
+                action="action_school_result"
+                sequence="20"/>
 
 <!--Products-->
     <menuitem id="menu_product_root"
@@ -72,83 +78,96 @@
             parent="menu_school_root"
             sequence="50"/>
 
-    <menuitem id="menu_program"
-            name="Programs"
-            parent="menu_product_root"
-            action="action_school_product_program"
-            sequence="10"/>
+        <menuitem id="menu_product"
+                name="Products"
+                parent="menu_product_root"
+                action="action_school_product"
+                sequence="10"/>
+                        
+        <menuitem id="menu_program"
+                name="Programs"
+                parent="menu_product_root"
+                action="action_school_program"
+                sequence="20"/>
 
-    <menuitem id="menu_item"
-            name="Items"
-            parent="menu_product_root"
-            action="action_school_product_item"
-            sequence="20"/>
+<!--Sales-->
+    <menuitem id="menu_sale_root"
+            name="Sales"
+            parent="menu_school_root"
+            sequence="60"/>
 
-    <menuitem id="menu_sale_order"
-            name="Sale Orders"
-            parent="menu_product_root"
-            action="action_school_sale_order"
-            sequence="30"/>
+        <menuitem id="menu_sale"
+                name="Sale Orders"
+                parent="menu_sale_root"
+                action="action_school_sale_order"
+                sequence="10"/>
+                        
+        <!--<menuitem id="menu_enrollment"
+                name="Enrollments"
+                parent="menu_sale_root"
+                action="action_school_enrollment"
+                sequence="20"/>-->
+
    
 <!--Configuration-->
     <menuitem id="menu_Configuration_root"
             name="Configuration"
             parent="menu_school_root"
-            sequence="60"/>
-
-    <menuitem id="menu_school_year"
-            name="School Years"
-            parent="menu_Configuration_root"
-            action="action_school_year"
-            sequence="10"/>
-
-    <menuitem id="menu_level"
-            name="Levels"
-            parent="menu_Configuration_root"
-            action="action_school_level"
-            sequence="20"/>
-
-    <menuitem id="menu_classe"
-            name="Classes"
-            parent="menu_Configuration_root"
-            action="action_school_classe"
-            sequence="30"/>
-    
-    <menuitem id="menu_group"
-            name="Groups"
-            parent="menu_Configuration_root"
-            action="action_school_group"
-            sequence="40"/>
-    
-    <menuitem id="menu_subject"
-            name="Subjects"
-            parent="menu_Configuration_root"
-            action="action_school_subject"
-            sequence="50"/>
-    
-    <menuitem id="menu_relation"
-            name="Relations"
-            parent="menu_Configuration_root"
-            action="action_responsible_relation"
-            sequence="60"/>
-    
-    <menuitem id="menu_civility"
-            name="Civility"
-            parent="menu_Configuration_root"
-            action="action_responsible_civility"
             sequence="70"/>
-    
-    <menuitem id="menu_job"
-            name="Jobs"
-            parent="menu_Configuration_root"
-            action="action_responsible_job"
-            sequence="80"/>
-    
-    <menuitem id="menu_familysituation"
-            name="Family Situations"
-            parent="menu_Configuration_root"
-            action="action_school_familysituation"
-            sequence="90"/>
+
+        <menuitem id="menu_school_year"
+                name="School Years"
+                parent="menu_Configuration_root"
+                action="action_school_year"
+                sequence="10"/>
+
+        <menuitem id="menu_level"
+                name="Levels"
+                parent="menu_Configuration_root"
+                action="action_school_level"
+                sequence="20"/>
+
+        <menuitem id="menu_classe"
+                name="Classes"
+                parent="menu_Configuration_root"
+                action="action_school_classe"
+                sequence="30"/>
+        
+        <menuitem id="menu_group"
+                name="Groups"
+                parent="menu_Configuration_root"
+                action="action_school_group"
+                sequence="40"/>
+        
+        <menuitem id="menu_subject"
+                name="Subjects"
+                parent="menu_Configuration_root"
+                action="action_school_subject"
+                sequence="50"/>
+        
+        <menuitem id="menu_relation"
+                name="Relations"
+                parent="menu_Configuration_root"
+                action="action_responsible_relation"
+                sequence="60"/>
+        
+        <menuitem id="menu_civility"
+                name="Civility"
+                parent="menu_Configuration_root"
+                action="action_responsible_civility"
+                sequence="70"/>
+        
+        <menuitem id="menu_job"
+                name="Jobs"
+                parent="menu_Configuration_root"
+                action="action_responsible_job"
+                sequence="80"/>
+        
+        <menuitem id="menu_familysituation"
+                name="Family Situations"
+                parent="menu_Configuration_root"
+                action="action_school_familysituation"
+                sequence="90"/>
 
     
 

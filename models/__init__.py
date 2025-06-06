@@ -16,3 +16,4 @@ from . import school_attendance
 from . import school_test
 from . import school_sale_order
 from . import school_enrollment
+from . import school_program

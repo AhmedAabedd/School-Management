@@ -15,9 +15,9 @@ class SchoolEnrollment(models.Model):
     name = fields.Char(string="Reference", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
     parent_id = fields.Many2one('school.parent', string='Parent name', required=True)
-    subject_id = fields.Many2one('school.subject', string="Category")
-    program_id = fields.Many2one('school.product', string='Program name', required=True,
-                              domain="[('subject_id', '=', subject_id), ('product_type', '=', 'program')]")
+    subject_id = fields.Many2one('school.subject', string="Subject")
+    program_id = fields.Many2one('school.program', string='Program name', required=True,
+                              domain="[('subject_id', '=', subject_id)]")
     
     total_hours = fields.Float(related='program_id.duration_hours', string="Hours", store=True)
     total_sessions = fields.Integer(related='program_id.total_sessions', string="Sessions", store=True)

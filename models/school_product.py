@@ -17,28 +17,15 @@ class SchoolProduct(models.Model):
     reference = fields.Char(string="Reference", required=True)
     image = fields.Binary(string="Product Photo")
     product_type = fields.Selection([
-            ('program', 'Program'),
-            ('item', 'Item'),
-        ], string='Type', required=True
+            ('kit', 'Robotics Kit'),
+            ('book','Book')
+        ], string='Product Type'
     )
     unit_price = fields.Float(string="Unit Price")
     description = fields.Text(string="Description")
     active = fields.Boolean(string="Active", default=True)
     
-    #For Program
-    subject_id = fields.Many2one('school.subject', string="Category")
-    #program_categorys = fields.Selection([('robotic', 'Robotics'),('python', 'Python'),('scratch', 'Scratch')], string='Category')
-    duration_hours = fields.Float(string="Total hours")
-    duration_weeks = fields.Integer(string="Total weeks")
-    total_sessions = fields.Integer(string="Number of sessions")
-
-    #For Items
-    item_type = fields.Selection([
-            ('kit', 'Robotics Kit'),
-            ('book','Book')
-        ], string='Item Type'
-    )
-    quantity = fields.Integer(string="Available Quantity")
+    available_qty = fields.Integer(string="Available Quantity")
     state = fields.Selection([
             ('available', 'Available'),
             ('out_of_stock', 'Out of stock')
@@ -49,46 +36,50 @@ class SchoolProduct(models.Model):
     )
 
 
+    ##################################################################
 
+    stock_warning = fields.Boolean(string="warning", compute="_compute_stock_warning", store=True)
 
-    #selecting automatically product_type when creaing new product
-    @api.model
-    def default_get(self, fields_list):
-        defaults = super(SchoolProduct, self).default_get(fields_list)
-        if self.env.context.get('from_product_item'):
-            defaults['product_type'] = 'item'
-        elif self.env.context.get('from_product_program'):
-            defaults['product_type'] = 'program'
-        return defaults
-    #note : api.model tekhdem ki tenzel aala create
+    #Change state depending on available quantity
+    @api.depends('available_qty')
+    def _compute_stock_warning(self):
+        for rec in self:
+            if rec.available_qty > 0 and rec.available_qty <= 10:
+                rec.stock_warning = True
+            else :
+                rec.stock_warning = False
+
+    ##################################################################
+
     
-    #Change state depending on quantity
-    @api.depends('quantity')
+
+    #Change state depending on available quantity
+    @api.depends('available_qty')
     def _compute_state(self):
         for product in self:
-            if product.quantity > 0:
+            if product.available_qty > 0:
                 product.state = 'available'
             else :
                 product.state = 'out_of_stock'
     
-    #Raise Error when quantity < 0
-    @api.constrains('quantity','unit_price')
-    def _check_quantity(self):
-        for product in self:
-            if product.quantity < 0:
-                raise ValidationError("Available quantity cannot be negative !")
+    #Raise Error when available quantity < 0
+    @api.constrains('available_qty','unit_price')
+    def _check_negative_quantity(self):
+        for rec in self:
+            if rec.available_qty < 0:
+                raise ValidationError(_("Available quantity cannot be negative !"))
     
     #Raise Error when price is < 0
     @api.constrains('unit_price')
-    def _check_price(self):
-        for product in self:
-            if product.unit_price < 0:
+    def _check_negative_price(self):
+        for rec in self:
+            if rec.unit_price < 0:
                 raise ValidationError(_("Price cannot be negative !"))
             
     #Warning when changing state to Out of Stock
-    @api.onchange('quantity')
-    def _onchange_quantity(self):
-        if self.quantity == 0 and self.name:
+    @api.onchange('state')
+    def _check_state_outOfStock(self):
+        if self.state == 'out_of_stock' and self.name:
             msg = "This product (" + self.name + ") is now out of stock !"
             return {
                 'warning': {
@@ -98,6 +89,19 @@ class SchoolProduct(models.Model):
             }
     
 
+    ################## TRASH ############################################
+
+    #inserting product_type when creaing new product
+    #@api.model
+    #def default_get(self, fields_list):
+        #defaults = super(SchoolProduct, self).default_get(fields_list)
+        #if self.env.context.get('from_product_product'):
+            #defaults['product_type'] = 'product'
+        #elif self.env.context.get('from_product_program'):
+            #defaults['product_type'] = 'program'
+        #return defaults
+    #note : api.model tekhdem ki tenzel aala create
+
     #show_quantity_state_fields = fields.Boolean(
     #    compute='_compute_show_quantity_state_fields',
     #    string="Show Quantity Fields"
@@ -105,4 +109,4 @@ class SchoolProduct(models.Model):
     #@api.depends('product_type')
     #def _compute_show_quantity_state_fields(self):
     #    for product in self:
-    #        product.show_quantity_state_fields = product.product_type == 'item'
+    #        product.show_quantity_state_fields = product.product_type == 'product'

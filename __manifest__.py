@@ -22,9 +22,9 @@
              'views/second_responsible_view.xml',
              'views/product_view.xml',
              'views/program_view.xml',
-             'views/item_view.xml',
              'views/attendance_view.xml',
              'views/test_view.xml',
+             'views/result_view.xml',
              'views/sale_order_view.xml',
              'views/menu.xml'
     ],

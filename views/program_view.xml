@@ -1,7 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!--this is program action-->
+    <record id="view_program_form" model="ir.ui.view">
+        <field name="name">school.program.form</field>
+        <field name="model">school.program</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group> 
+                        <field name="name"/>
+                        <field name="reference"/>
+                    </group>
+                    <notebook>
+                        <page name="program_infos" string="Informations">
+                            <group>
+                                <group>
+                                    <field name="subject_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="duration_hours"/>
+                                    <field name="duration_weeks"/>
+                                </group>
+                                <group>
+                                    <field name="active"/>
+                                    <field name="description"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_program_tree" model="ir.ui.view">
+        <field name="name">school.program.tree</field>
+        <field name="model">school.program</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="subject_id"/>
+                <field name="unit_price"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <!-- ACTION -->
+    <record id="action_school_program" model="ir.actions.act_window">
+        <field name="name">Our Programs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">school.program</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new program !  
+            </p>
+        </field>
+    </record>
+
+    <!--this is program action-
     <record id="action_school_product_program" model="ir.actions.act_window">
         <field name="name">Our programs</field>
         <field name="type">ir.actions.act_window</field>
@@ -14,6 +78,6 @@
                 Create a new program !  
             </p>
         </field>
-    </record>
+    </record>-->
 
 </odoo>

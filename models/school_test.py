@@ -93,9 +93,9 @@ class SchoolTest(models.Model):
             self.result_ids = [(5, 0, 0)]
             
             # Get all students in this group
-            students = self.env['school.student'].search([('group_id', '=', self.group_id.id)])
+            students = self.env['school.student'].search([('group_id', '=', self.group_id.id)])#students contain Students IDs
             
-            # Create result lines
+            # Create result lines instances
             for student in students:
                 self.result_ids = [(0, 0, {'student_id': student.id})]
 

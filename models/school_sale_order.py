@@ -9,7 +9,7 @@ from datetime import datetime
 class SchoolSaleOrder(models.Model):
     _name = "school.saleorder"
     _inherit = ['mail.thread','mail.activity.mixin']
-    _description = "Item Sale Order"
+    _description = "Product Sale Order"
 
 
     name = fields.Char(string="Reference", required=True, copy=False, readonly=True,
@@ -33,7 +33,7 @@ class SchoolSaleOrder(models.Model):
         'sale_order_id'
     )
 
-    ################ TO CHECK SALE ORDER CREATION ORIGIN  #########################################
+    ################ TO CHECK SALE ORDER CREATION ORIGIN (from parent or sale order itself)  #########################################
 
     from_parent_form = fields.Boolean(string="From Parent Form", readonly=True)
 
@@ -46,14 +46,10 @@ class SchoolSaleOrder(models.Model):
 
     def action_confirm(self):
         for rec in self:
-            #if rec.item_id.quantity < rec.quantity:
-                #raise ValidationError("Not enough stock!")
-            #rec.item_id.quantity -= rec.quantity
-            #rec.state = 'confirmed'
             for line in rec.order_lines_ids:
-                if line.quantity > line.item_id.quantity:
-                    raise ValidationError(_(f"Not enough stock for ({line.item_id})!"))
-                line.item_id.quantity -= line.quantity
+                if line.quantity > line.product_id.available_qty:
+                    raise ValidationError(_(f"Not enough stock for ({line.product_id.name})!"))
+                line.product_id.available_qty -= line.quantity
                 line.aux = line.quantity
             rec.state = 'confirmed'
 
@@ -68,7 +64,7 @@ class SchoolSaleOrder(models.Model):
     def action_cancel(self):
         for rec in self:
             for line in self.order_lines_ids:
-                line.item_id.quantity += line.aux
+                line.product_id.available_qty += line.aux
                 line.aux = 0
             rec.state = 'cancelled'
 
@@ -94,33 +90,34 @@ class SchoolSaleOrder(models.Model):
 
 
 
-
 class SaleOrderLine(models.Model):
     _name = "school.saleorderline"
 
 
     sale_order_id = fields.Many2one('school.saleorder', string='Sale Order', required=True)
-    item_type = fields.Selection([
+    product_type = fields.Selection([
             ('kit', 'Robotics Kit'),
             ('book','Book')
-        ], string='Item Type'
+        ], string='Product Type'
     )
-    item_id = fields.Many2one('school.product', string='Item', required=True,
-                              domain="[('product_type', '=', 'item'), ('item_type', '=', item_type)]")
+    product_id = fields.Many2one('school.product', string='Product name', required=True,
+                              domain="[('product_type', '=', product_type)]")
     
-    unit_price = fields.Float(related='item_id.unit_price', store=True)
-    #available_quantity = fields.Integer(related='item_id.quantity', store=True)
+    unit_price = fields.Float(related='product_id.unit_price', store=True)
 
     quantity = fields.Integer(string="Quantity", default=0)
     total = fields.Float(string="Subtotal", compute="_compute_line_total", store=True)
+    currency_id = fields.Many2one(related='sale_order_id.currency_id', string="Currency", store=True)
 
     aux = fields.Integer(string='Aux', default=0)
 
 
-    @api.onchange('item_type')
-    def _reset_item_name(self):
+
+
+    @api.onchange('product_type')
+    def _reset_product_name(self):
         for rec in self:
-            rec.item_id = ''
+            rec.product_id = ''
 
     @api.depends('unit_price', 'quantity')
     def _compute_line_total(self):
@@ -129,22 +126,24 @@ class SaleOrderLine(models.Model):
 
     #Warning when selecting invalid quantity
     @api.onchange('quantity')
-    def _check_available_quantity(self):
+    def _check_selected_quantity(self):
         for rec in self:
-            if rec.quantity > rec.item_id.quantity:
+            if rec.quantity > rec.product_id.available_qty and rec.sale_order_id.state == 'confirmed':
+                raise ValidationError(_(f"Not enough stock for ({rec.product_id.name})"))
+            if rec.quantity > rec.product_id.available_qty:
                 return {
                     'warning': {
                         'title': "Stock Alert",
-                        'message': f"The quantity selected ({rec.quantity}) exceeds available stock ({rec.item_id.quantity})."
+                        'message': f"The quantity selected ({rec.quantity}) exceeds available stock ({rec.product_id.available_qty})."
                     }
                 }
 
     #disallowing deleting records when sale order is confirmed or paid
     def unlink(self):
         for rec in self:
-            if rec.sale_order_id.state == "confirmed":
+            if rec.sale_order_state == "confirmed":
                 raise ValidationError(_("You cannot delete order line when sale order is confirmed!"))
-            if rec.sale_order_id.state == "paid":
+            if rec.sale_order_state == "paid":
                 raise ValidationError(_("You cannot delete order line when sale order is paid!"))
             return super(SaleOrderLine, self).unlink()
     
