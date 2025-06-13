@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_school_res_parent_form" model="ir.ui.view">
+        <field name="name">school.parent.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <group>
+                    <field name="is_school_parent" widget="boolean_toggle"/>
+                    <field name="is_second_responsible" widget="boolean_toggle"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- PARENT ACTION -->
+    <record id="action_school_res_partner" model="ir.actions.act_window">
+        <field name="name">Our Parents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('is_school_parent', '=', True), ('is_second_responsible','=',False)]</field>
+        <field name="context">{'from_school_menu': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Parent !  
+            </p>
+        </field>
+    </record>
+
+    <!-- SECOND RESPONSIBLE ACTION -->
+    <record id="action_school_res_sec_responsible" model="ir.actions.act_window">
+        <field name="name">Our Second Responsibles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('is_school_parent', '=', True), ('is_second_responsible','=',True)]</field>
+        <field name="context">{'from_school_menu': True, 'from_second_responsible': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Second Responsible !  
+            </p>
+        </field>
+    </record>
+
+</odoo>

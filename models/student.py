@@ -43,6 +43,12 @@ class SchoolStudent(models.Model):
         domain="[('is_second_responsible', '=', False)]",
         required=True
     )
+    parent_id = fields.Many2one(
+        'res.partner',
+        string="Parent name",
+        domain="[('is_school_parent', '=', True)('is_second_responsible', '=', False)]"
+    )
+
     relation_id = fields.Many2one('responsible.relation', string="Relation")
     
     birth_country_id = fields.Many2one("res.country",string="Birth Country")
@@ -98,6 +104,13 @@ class SchoolStudent(models.Model):
         string="Second Responsibles",
         domain="[('is_second_responsible','=',True),('id', '!=', responsible_id)]"
     )
+
+    sec_responsible_ids = fields.Many2many(
+        'res.partner',
+        string="Seconds Responsible",
+        domain="[('is_school_parent', '=', True), ('is_second_responsible','=',True),('id', '!=', responsible_id)]"
+    )
+
     #second_responsible_ids = fields.Many2many(
     #    "school.parent",                  # Related model (Parent)
     #    "student_parent_rel",            # Relationship table name

@@ -41,6 +41,18 @@
                 parent="menu_parent_root"
                 action="action_school_second_responsible"
                 sequence="20"/>
+        
+        <menuitem id="menu_res_parent"
+                name="Parents (resPartner)"
+                parent="menu_parent_root"
+                action="action_school_res_partner"
+                sequence="30"/>
+
+        <menuitem id="menu_sec_responsible"
+                name="Second Responsibles (resPartner)"
+                parent="menu_parent_root"
+                action="action_school_res_sec_responsible"
+                sequence="40"/>
 
 <!--Teachers-->
     <menuitem id="menu_teacher_root"
@@ -83,12 +95,18 @@
                 parent="menu_product_root"
                 action="action_school_product"
                 sequence="10"/>
+
+        <menuitem id="menu_product_template"
+                name="Product Templates"
+                parent="menu_product_root"
+                action="action_school_product_template"
+                sequence="20"/>
                         
         <menuitem id="menu_program"
                 name="Programs"
                 parent="menu_product_root"
                 action="action_school_program"
-                sequence="20"/>
+                sequence="30"/>
 
 <!--Sales-->
     <menuitem id="menu_sale_root"

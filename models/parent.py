@@ -121,7 +121,7 @@ class SchoolParent(models.Model):
 
 ########################################################################################################
 
-    #calling default "create" action of sale order model
+    #calling default "create" action of school sale order model
     def create_sale_order(self):
         return {
             'type': 'ir.actions.act_window',
