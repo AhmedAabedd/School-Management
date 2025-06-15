@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+from odoo import fields, api, models,_
+from dateutil.relativedelta import relativedelta
+import datetime
+import re
+from odoo.exceptions import ValidationError
+from datetime import datetime
+
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    aasba = fields.Char(string="Asba")
+    mounir = fields.Char(string="fffff")

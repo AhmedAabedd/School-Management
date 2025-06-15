@@ -7,7 +7,7 @@ from odoo.exceptions import ValidationError
 from datetime import datetime
 
 class SchoolSaleOrder(models.Model):
-    _name = "school.saleorder"
+    _name = "school.sale.order"
     _inherit = ['mail.thread','mail.activity.mixin']
     _description = "Product Sale Order"
 
@@ -74,7 +74,7 @@ class SchoolSaleOrder(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('school.saleorder.sequence') or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code('school.sale.order.sequence') or _('New')
         res = super(SchoolSaleOrder , self).create(vals)
         return res
     
@@ -94,7 +94,7 @@ class SaleOrderLine(models.Model):
     _name = "school.saleorderline"
 
 
-    sale_order_id = fields.Many2one('school.saleorder', string='Sale Order', required=True)
+    sale_order_id = fields.Many2one('school.sale.order', string='Sale Order', required=True)
     product_type = fields.Selection([
             ('kit', 'Robotics Kit'),
             ('book','Book')

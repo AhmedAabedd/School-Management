@@ -4,7 +4,8 @@
 <!--SCHOOL-->
     <menuitem id="menu_school_root" 
             name="School"
-            sequence="10"/>
+            sequence="10"
+            web_icon="school,static/description/icon.png"/>
 
 <!--Students-->
     <menuitem id="menu_student_root"

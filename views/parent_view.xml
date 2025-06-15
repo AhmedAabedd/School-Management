@@ -37,14 +37,14 @@
                             <group>
                                 <group>
                                     <field name="civility_id"/>
-                                    <field name="job" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="job_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
                                     <field name="establishment" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
                                     <field name="mail" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
                                     <field name="phone"/>
                                     <field name="personnal_adress" />
                                 </group>
                                 <group>
-                                    <field name="nationality" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="nationality_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
                                     <field name="city_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
                                     <field name="zip" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
                                     <field name="street" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>

@@ -57,23 +57,8 @@ class SchoolStudent(models.Model):
 
     use_responsible_address = fields.Boolean(string="Use Responsible Address", default=False)
 
-    @api.onchange('responsible_id','use_responsible_address')
-    def onchange_use_responsible_address(self):
-        if self.responsible_id and self.use_responsible_address:
-            self.nationality = self.responsible_id.nationality.id
-            self.city_id = self.responsible_id.city_id.id
-            self.zip = self.responsible_id.zip
-            self.street = self.responsible_id.street
-        else:
-            self.nationality = ''
-            self.city_id = ''
-            self.zip = ''
-            self.street = ''
 
-
-
-
-    nationality = fields.Many2one("res.country", string="Nationality")
+    nationality_id = fields.Many2one("res.country", string="Nationality")
     city_id = fields.Many2one("res.country.state", string="City")
     zip = fields.Char(string="Zip")
     street = fields.Char(string="Street")
@@ -132,8 +117,20 @@ class SchoolStudent(models.Model):
 
 
 
+    #Assinging responsible Address to student Address infos
+    @api.onchange('responsible_id','use_responsible_address')
+    def onchange_use_responsible_address(self):
+        if self.responsible_id and self.use_responsible_address:
+            self.nationality_id = self.responsible_id.nationality_id.id
+            self.city_id = self.responsible_id.city_id.id
+            self.zip = self.responsible_id.zip
+            self.street = self.responsible_id.street
+        else:
+            self.nationality_id = ''
+            self.city_id = ''
+            self.zip = ''
+            self.street = ''
     
-
     #Age auto calculating
     @api.onchange('birth_date')
     def compute_age(self):

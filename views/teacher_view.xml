@@ -22,7 +22,7 @@
                                     <field name="gender"/>
                                     <field name="birth_date" placeholder="MM/DD/YYYY"/>
                                     <field name="age" force_save="1" readonly="1"/>
-                                    <field name="nationality"/>
+                                    <field name="nationality_id"/>
                                 </group>
                                 <group name="contact_info" string="CONTACT INFORMATION">
                                     <field name="phone"/>

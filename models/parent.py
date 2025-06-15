@@ -15,16 +15,16 @@ class SchoolParent(models.Model):
 
     
     is_second_responsible = fields.Boolean(string="Is second responsible", default=False)
-    parent_name = fields.Char(string="Name", required=True)
+    parent_name = fields.Char(string="Name", required=0)
     reference = fields.Char(string="Reference", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
     civility_id = fields.Many2one('responsible.civility', string="Civility")
-    phone = fields.Char(string="Phone Number", required=True)
+    phone = fields.Char(string="Phone Number", required=0)
     mail = fields.Char(string="Email")
-    job = fields.Many2one('responsible.job', string="Job")
+    job_id = fields.Many2one('responsible.job', string="Job")
     establishment = fields.Char(string="Establishment")
     personnal_adress = fields.Char(string="Personnal Adress")
-    nationality = fields.Many2one("res.country", string="Nationality")
+    nationality_id = fields.Many2one("res.country", string="Nationality")
     city_id = fields.Many2one("res.country.state", string="City")
     zip = fields.Char(string="Zip")
     street = fields.Char(string="Street")
@@ -36,7 +36,7 @@ class SchoolParent(models.Model):
     #second_responsible_ids = fields.One2many('school.secondresponsible', 'main_responsible_id', string="Second Responsible")
 
     sale_order_ids = fields.One2many(
-        'school.saleorder',
+        'school.sale.order',
         'parent_id',
         domain="[('parent_id', '=', id)]"
     )
@@ -126,9 +126,9 @@ class SchoolParent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Create Sale Order',
-            'res_model': 'school.saleorder',
+            'res_model': 'school.sale.order',
             'view_mode': 'form',
-            'target': 'new',
+            'target': 'new',#to open in wizard
             'context': {
                 'default_parent_id': self.id,
                 'default_from_parent_form': True,

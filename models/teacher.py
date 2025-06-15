@@ -24,7 +24,7 @@ class SchoolTeacher(models.Model):
     mail = fields.Char(string="Email")
     delegation_date = fields.Date(string="Delegation Date")
     teaching_subjects = fields.Many2many("school.subject", string="Teaching Subjects")
-    nationality = fields.Many2one("res.country", string="Nationality")
+    nationality_id = fields.Many2one("res.country", string="Nationality")
     note = fields.Text(string='Description')
 
     school_history_ids = fields.One2many('school.history', 'teacher_id', string="School History")

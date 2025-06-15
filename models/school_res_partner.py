@@ -11,7 +11,7 @@ class ResPartner(models.Model):
 
     is_school_parent = fields.Boolean(string="Is School Parent")
     is_second_responsible = fields.Boolean(string="Is Second Responsible")
-
+    
     
     
 
