@@ -68,6 +68,7 @@
                                     <field name="responsible_id"/>
                                 </tree>
                             </field>
+
                         </page>
                         <page name="Sale Orders" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
                             <field name="sale_order_ids">

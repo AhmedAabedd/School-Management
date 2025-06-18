@@ -11,11 +11,13 @@
                             attrs="{'invisible': [('state', '!=', 'draft')]}"/>
                     <button name="action_paid" string="Mark as Paid" type="object" class="oe_highlight"
                             attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                    <button name="action_create_invoice" string="Create Invoice" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
                     <button name="action_draft" string="Set to draft" type="object" class="oe_highlight"
                             attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
                     <button name="action_cancel" string="Cancel" type="object" class="oe-link"
                             attrs="{'invisible': [('state', 'in', ['paid', 'cancelled'])]}"/>
-                    <field name="state" widget="statusbar"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

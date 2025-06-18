@@ -24,7 +24,7 @@ class SchoolHistory(models.Model):
     notes = fields.Text(string="Notes")
 
     #Student Fields
-    student_id = fields.Many2one('school.student', string="Student Name", readonly=True)
+    student_id = fields.Many2one('school.student', string="Student Name")
     level_id = fields.Many2one('school.level', string="Level")
     class_id = fields.Many2one('school.classe', string="Class")
     annual_average = fields.Float(string="Annual Average")
@@ -32,7 +32,7 @@ class SchoolHistory(models.Model):
     certificate_id = fields.Char(string="Certificate")
 
     #teacher Fields
-    teacher_id = fields.Many2one('school.teacher', string="Teacher Name", readonly=True)
+    teacher_id = fields.Many2one('school.teacher', string="Teacher Name")
     #subject_ids = fields.Many2many(
     #    'school.subject', 
     #    'history_subject_rel',  # relation table name
@@ -47,7 +47,6 @@ class SchoolHistory(models.Model):
     @api.model
     def default_get(self, fields_list):
         defaults = super(SchoolHistory, self).default_get(fields_list)
-        
         # Auto-detect if created from teacher or student
         if self.env.context.get('is_student_action'):
             defaults['refers_to'] = 'student'

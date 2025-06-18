@@ -74,7 +74,7 @@ class SchoolSaleOrder(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('school.sale.order.sequence') or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code('school.sale.order.sequences') or _('New')
         res = super(SchoolSaleOrder , self).create(vals)
         return res
     
@@ -83,6 +83,33 @@ class SchoolSaleOrder(models.Model):
         for rec in self:
             total = sum(line.total for line in rec.order_lines_ids)
             rec.amount_total = total
+    
+    def action_create_invoice(self):
+        order_lines_commands = []
+        for line in self.order_lines_ids:  # Assuming this is the source of lines
+            order_lines_commands.append((0, 0, {
+                'sale_order_id': line.sale_order_id.id,
+                'product_type': line.product_type,
+                'product_id': line.product_id.id,
+                'quantity': line.quantity,
+                'unit_price': line.unit_price,
+                #'total': line.total
+                'currency_id': line.currency_id.id
+            }))
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Create Invoice',
+            'res_model': 'school.invoice',
+            'view_mode': 'form',
+            'target': 'current',#to open in form
+            'context': {
+                'default_parent_id': self.parent_id.id,
+                'default_currency_id': self.currency_id.id,
+                'default_amount_total': self.amount_total,
+                'default_order_line_ids': order_lines_commands,
+            }
+        }
 
 
 
@@ -108,6 +135,7 @@ class SaleOrderLine(models.Model):
     quantity = fields.Integer(string="Quantity", default=0)
     total = fields.Float(string="Subtotal", compute="_compute_line_total", store=True)
     currency_id = fields.Many2one(related='sale_order_id.currency_id', string="Currency", store=True)
+    invoice_id = fields.Many2one('school.invoice', readonly=1)
 
     aux = fields.Integer(string='Aux', default=0)
 
@@ -141,9 +169,9 @@ class SaleOrderLine(models.Model):
     #disallowing deleting records when sale order is confirmed or paid
     def unlink(self):
         for rec in self:
-            if rec.sale_order_state == "confirmed":
+            if rec.sale_order_id.state == "confirmed":
                 raise ValidationError(_("You cannot delete order line when sale order is confirmed!"))
-            if rec.sale_order_state == "paid":
+            if rec.sale_order_id.state == "paid":
                 raise ValidationError(_("You cannot delete order line when sale order is paid!"))
             return super(SaleOrderLine, self).unlink()
     

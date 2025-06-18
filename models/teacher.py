@@ -18,7 +18,7 @@ class SchoolTeacher(models.Model):
     reference = fields.Char(string="Reference", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
     birth_date = fields.Date(string="Birth Date")
-    age = fields.Integer(string="Age", compute="compute_age", store=True)
+    age = fields.Integer(string="Age", compute="_compute_age", store=True)
     gender = fields.Selection([("male","Male"),("female","Female")], default="male", string="Gender", required=1)
     phone = fields.Char(string="Phone Number", required=True)
     mail = fields.Char(string="Email")
@@ -34,8 +34,8 @@ class SchoolTeacher(models.Model):
 
 
 
-    @api.onchange('birth_date')
-    def compute_age(self):
+    @api.depends('birth_date')
+    def _compute_age(self):
         today = datetime.today()
         for rec in self:
             if rec.birth_date:

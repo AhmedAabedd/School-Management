@@ -120,6 +120,12 @@
                 parent="menu_sale_root"
                 action="action_school_sale_order"
                 sequence="10"/>
+
+        <menuitem id="menu_invoice"
+                name="Invoices"
+                parent="menu_sale_root"
+                action="action_school_invoice"
+                sequence="20"/>
                         
         <!--<menuitem id="menu_enrollment"
                 name="Enrollments"

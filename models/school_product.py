@@ -57,6 +57,7 @@ class SchoolProduct(models.Model):
     @api.depends('available_qty')
     def _compute_state(self):
         for product in self:
+            #print("///////////////////////") if state attr store=true , this function get triggered only using depends
             if product.available_qty > 0:
                 product.state = 'available'
             else :

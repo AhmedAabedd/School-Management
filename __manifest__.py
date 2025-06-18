@@ -29,6 +29,7 @@
              'views/result_view.xml',
              'views/sale_order_view.xml',
              'views/inherit_sale_order.xml',
+             'views/invoice_view.xml',
              'views/menu.xml'
     ],
     'demo': [],

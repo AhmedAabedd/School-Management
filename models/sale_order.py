@@ -9,5 +9,4 @@ from datetime import datetime
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    aasba = fields.Char(string="Asba")
     mounir = fields.Char(string="fffff")
