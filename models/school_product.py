@@ -12,7 +12,6 @@ class SchoolProduct(models.Model):
     _description = "School Product"
     
 
-    #Basic Infos
     name = fields.Char(string="Name", required=True)
     reference = fields.Char(string="Reference", required=True)
     image = fields.Binary(string="Product Photo")

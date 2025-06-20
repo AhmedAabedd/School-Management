@@ -12,7 +12,7 @@ class SchoolSaleOrder(models.Model):
     _description = "Product Sale Order"
 
 
-    name = fields.Char(string="Reference", required=True, copy=False, readonly=True,
+    name = fields.Char(string="Ref", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
     parent_id = fields.Many2one('school.parent', string='Parent name', required=True,
                                 domain="[('is_second_responsible', '=', False)]")
@@ -28,7 +28,7 @@ class SchoolSaleOrder(models.Model):
 
     currency_id = fields.Many2one('res.currency', string="Currency", default=lambda self: self.env.company.currency_id)
 
-    order_lines_ids = fields.One2many(
+    order_line_ids = fields.One2many(
         'school.saleorderline',
         'sale_order_id'
     )
@@ -46,7 +46,7 @@ class SchoolSaleOrder(models.Model):
 
     def action_confirm(self):
         for rec in self:
-            for line in rec.order_lines_ids:
+            for line in rec.order_line_ids:
                 if line.quantity > line.product_id.available_qty:
                     raise ValidationError(_(f"Not enough stock for ({line.product_id.name})!"))
                 line.product_id.available_qty -= line.quantity
@@ -63,7 +63,7 @@ class SchoolSaleOrder(models.Model):
     
     def action_cancel(self):
         for rec in self:
-            for line in self.order_lines_ids:
+            for line in self.order_line_ids:
                 line.product_id.available_qty += line.aux
                 line.aux = 0
             rec.state = 'cancelled'
@@ -74,27 +74,25 @@ class SchoolSaleOrder(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('school.sale.order.sequences') or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code('school.sale.order.sequence') or _('New')
         res = super(SchoolSaleOrder , self).create(vals)
         return res
     
-    @api.depends('order_lines_ids.total')
+    @api.depends('order_line_ids.total')
     def _compute_amount_total(self):
         for rec in self:
-            total = sum(line.total for line in rec.order_lines_ids)
+            total = sum(line.total for line in rec.order_line_ids)
             rec.amount_total = total
     
     def action_create_invoice(self):
-        order_lines_commands = []
-        for line in self.order_lines_ids:  # Assuming this is the source of lines
-            order_lines_commands.append((0, 0, {
-                'sale_order_id': line.sale_order_id.id,
+        invoice_lines = []
+        for line in self.order_line_ids:
+            invoice_lines.append((0, 0, {
                 'product_type': line.product_type,
                 'product_id': line.product_id.id,
-                'quantity': line.quantity,
                 'unit_price': line.unit_price,
-                #'total': line.total
-                'currency_id': line.currency_id.id
+                'quantity': line.quantity,
+                'total': line.total
             }))
 
         return {
@@ -106,8 +104,8 @@ class SchoolSaleOrder(models.Model):
             'context': {
                 'default_parent_id': self.parent_id.id,
                 'default_currency_id': self.currency_id.id,
-                'default_amount_total': self.amount_total,
-                'default_order_line_ids': order_lines_commands,
+                'default_untaxed_amount': self.amount_total,
+                'default_invoice_line_ids': invoice_lines,
             }
         }
 

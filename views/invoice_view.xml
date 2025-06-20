@@ -12,7 +12,6 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <label for="name"/>
                             <field name="name" readonly="1"/>
                         </h1>
                         <group>
@@ -23,15 +22,15 @@
                             <group>
                                 <field name="payment_date"/>
                                 <field name="due_date"/>
+                                <field name="tax_id"/>
                             </group>
                         </group>
                     </div>
                     <notebook>
                         <page name="product_info" string="Order Lines">
-                            <field name="order_line_ids">
+                            <field name="invoice_line_ids">
                                 <tree editable="bottom">
-                                    <field name="sale_order_id"/>
-                                    <field name="invoice_id"/>
+                                    <field name="invoice_id" invisible="0"/>
                                     <field name="product_type"/>
                                     <field name="product_id"/>
                                     <field name="quantity"/>
@@ -41,7 +40,9 @@
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer">
-                                <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_value h2" readonly="1"/>
+                                <field name="untaxed_amount" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1" readonly="1"/>
+                                <field name="tax_amount" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-muted="1" readonly="1"/>
+                                <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1" class="oe_subtotal_value h3" readonly="1"/>
                             </group>
                         </page>    
                     </notebook>

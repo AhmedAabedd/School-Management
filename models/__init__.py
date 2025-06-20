@@ -17,7 +17,7 @@ from . import school_test
 from . import school_sale_order
 from . import school_enrollment
 from . import school_program
-from . import invoice
+from . import school_invoice
 ####### inherited models ##########
 from . import school_product_template
 from . import school_res_partner
