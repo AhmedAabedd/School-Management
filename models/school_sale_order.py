@@ -20,7 +20,6 @@ class SchoolSaleOrder(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
-        ('paid', 'Paid'),
         ('cancelled', 'Cancelled')
     ], default='draft', string="Status", tracking=True)
 
@@ -53,10 +52,6 @@ class SchoolSaleOrder(models.Model):
                 line.aux = line.quantity
             rec.state = 'confirmed'
 
-    def action_paid(self):
-        for rec in self:
-            rec.state = 'paid'
-    
     def action_draft(self):
         for rec in self:
             rec.state = 'draft'
@@ -164,12 +159,10 @@ class SaleOrderLine(models.Model):
                     }
                 }
 
-    #disallowing deleting records when sale order is confirmed or paid
+    #disallowing deleting records when sale order is confirmed
     def unlink(self):
         for rec in self:
             if rec.sale_order_id.state == "confirmed":
                 raise ValidationError(_("You cannot delete order line when sale order is confirmed!"))
-            if rec.sale_order_id.state == "paid":
-                raise ValidationError(_("You cannot delete order line when sale order is paid!"))
             return super(SaleOrderLine, self).unlink()
     
