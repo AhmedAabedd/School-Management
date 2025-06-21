@@ -23,6 +23,7 @@
                                 <field name="payment_date"/>
                                 <field name="due_date"/>
                                 <field name="tax_id"/>
+                                <field name="timbre_fiscal"/>
                             </group>
                         </group>
                     </div>
@@ -42,6 +43,7 @@
                             <group class="oe_subtotal_footer">
                                 <field name="untaxed_amount" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1" readonly="1"/>
                                 <field name="tax_amount" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-muted="1" readonly="1"/>
+                                <field name="timbre_fiscal_amount" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-muted="1" readonly="1"/>
                                 <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1" class="oe_subtotal_value h3" readonly="1"/>
                             </group>
                         </page>    

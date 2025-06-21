@@ -23,7 +23,10 @@ class SchoolInvoice(models.Model):
         ('notpaid', 'Not Paid'),
     ], default='draft')
 
-    tax_id = fields.Many2one('account.tax', string="Taxes", required=1)
+    timbre_fiscal = fields.Many2one('account.tax')
+    timbre_fiscal_amount = fields.Float(related="timbre_fiscal.amount", string="T.Fiscal")
+
+    tax_id = fields.Many2one('account.tax', string="Taxes")
     tax_amount = fields.Float(related="tax_id.amount", string="Taxes")
 
     untaxed_amount = fields.Float(string="Untaxed Amount")
@@ -33,19 +36,26 @@ class SchoolInvoice(models.Model):
 
 
 
+    #Affecting value to timbre fiscal field
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super(SchoolInvoice, self).default_get(fields_list)
+        timbre_fiscal_tax = self.env['account.tax'].search([('name', '=', 'Timbre Fiscal')], limit=1)
+        defaults['timbre_fiscal'] = timbre_fiscal_tax
+        return defaults
 
     #Generate auto sequence(name)
     @api.model
     def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('school.invoice.sequence') or _('New')
         res = super(SchoolInvoice,self).create(vals)
+        if res.name == 'New':
+            res.name  = self.env['ir.sequence'].next_by_code('school.invoice.sequence')
         return res
 
     @api.depends('tax_id', 'untaxed_amount')
     def _compute_amount_total(self):
         for rec in self:
-            rec.amount_total = rec.untaxed_amount + rec.tax_id.amount
+            rec.amount_total = rec.untaxed_amount + rec.tax_amount + rec.timbre_fiscal_amount
     
 
 
