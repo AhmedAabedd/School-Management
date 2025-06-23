@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, api, models,_
+from odoo import fields, api, models, _
 from dateutil.relativedelta import relativedelta
 import datetime
 import re
@@ -32,6 +32,8 @@ class SchoolSaleOrder(models.Model):
         'sale_order_id'
     )
 
+    invoice_count = fields.Integer(string="Invoices", compute="_compute_invoice_count")
+
     ################ TO CHECK SALE ORDER CREATION ORIGIN (from parent or sale order itself)  #########################################
 
     from_parent_form = fields.Boolean(string="From Parent Form", readonly=True)
@@ -61,6 +63,11 @@ class SchoolSaleOrder(models.Model):
             for line in self.order_line_ids:
                 line.product_id.available_qty += line.aux
                 line.aux = 0
+            
+            invoices = self.env['school.invoice'].search([('sale_order_id', '=', rec.id)])
+            for invoice in invoices:
+                invoice.state = 'cancelled'
+
             rec.state = 'cancelled'
 
     ##########################################################################################
@@ -73,12 +80,31 @@ class SchoolSaleOrder(models.Model):
         res = super(SchoolSaleOrder , self).create(vals)
         return res
     
+    def _compute_invoice_count(self):
+        for rec in self:
+            rec.invoice_count = self.env['school.invoice'].search_count([('sale_order_id', '=', rec.id)])
+    
+    
     @api.depends('order_line_ids.total')
     def _compute_amount_total(self):
         for rec in self:
             total = sum(line.total for line in rec.order_line_ids)
             rec.amount_total = total
     
+    def action_view_invoice(self):
+        self.ensure_one()
+        if self.invoice_count == 0:
+            raise ValidationError(_("No invoices created for this sale order !"))
+        return{
+            'type': 'ir.actions.act_window',
+            'name': 'Invoices',
+            'res_model': 'school.invoice',
+            'domain': [('sale_order_id', '=', self.id)],
+            'view_mode': 'tree,form',
+            'target':'current',
+            'context': {}
+        }
+
     def action_create_invoice(self):
         invoice_lines = []
         for line in self.order_line_ids:
@@ -97,6 +123,7 @@ class SchoolSaleOrder(models.Model):
             'view_mode': 'form',
             'target': 'current',#to open in form
             'context': {
+                'default_sale_order_id': self.id,
                 'default_parent_id': self.parent_id.id,
                 'default_currency_id': self.currency_id.id,
                 'default_untaxed_amount': self.amount_total,

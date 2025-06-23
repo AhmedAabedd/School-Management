@@ -9,17 +9,20 @@
                 <header>
                     <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
                             attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                    <button name="action_paid" string="Mark as Paid" type="object" class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
                     <button name="action_create_invoice" string="Create Invoice" type="object" class="oe_highlight"
                             attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
                     <button name="action_draft" string="Set to draft" type="object" class="oe_highlight"
                             attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
                     <button name="action_cancel" string="Cancel" type="object" class="oe-link"
-                            attrs="{'invisible': [('state', 'in', ['paid', 'cancelled'])]}"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,paid"/>
+                            attrs="{'invisible': [('state', '=', 'cancelled')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
                     </div>
@@ -54,7 +57,6 @@
                     <group>
                         <field name="amount_total"/>
                         <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
-                        <button name="action_paid" type="object" string="Mark as Paid" class="btn-success"/>
                     </group>
                 </footer>-->
                 
@@ -68,7 +70,6 @@
         <field name="model">school.sale.order</field>
         <field name="arch" type="xml">
             <tree string="Product Sale Orders" decoration-info="state == 'confirmed'"
-                                               decoration-success="state == 'paid'"
                                                decoration-danger="state == 'cancelled'">
                 <field name="name"/>
                 <field name="parent_id"/>
@@ -76,7 +77,6 @@
                 <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="state" widget="badge"
                                     decoration-info="state == 'confirmed'"
-                                    decoration-success="state == 'paid'"
                                     decoration-danger="state == 'cancelled'"/>
             </tree>
         </field>

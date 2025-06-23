@@ -12,16 +12,23 @@ class SchoolInvoice(models.Model):
 
 
     name = fields.Char(string="Reference", required=1, default=lambda self: _('New'))
+    sale_order_id = fields.Many2one('school.sale.order')
     parent_id = fields.Many2one('school.parent', string="Customer", required=1, domain="[('is_second_responsible', '=', False)]")
     payment_date = fields.Date()
     due_date = fields.Date()
     currency_id = fields.Many2one('res.currency', string="Currency")
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
-        ('paid', 'Paid'),
+        ('cancelled', 'Cancelled')
+    ], default='draft', string="Status")
+
+    payment_state = fields.Selection([
         ('notpaid', 'Not Paid'),
-    ], default='draft')
+        ('partial', 'Partially Paid'),
+        ('paid', 'Paid'),
+    ], default='notpaid', string="Payment Status")
 
     timbre_fiscal = fields.Many2one('account.tax')
     timbre_fiscal_amount = fields.Float(related="timbre_fiscal.amount", string="T.Fiscal")
