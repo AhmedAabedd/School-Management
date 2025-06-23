@@ -33,10 +33,8 @@ class SchoolInvoice(models.Model):
     timbre_fiscal = fields.Many2one('account.tax')
     timbre_fiscal_amount = fields.Float(related="timbre_fiscal.amount", string="T.Fiscal")
 
-    tax_id = fields.Many2one('account.tax', string="Taxes")
-    tax_amount = fields.Float(related="tax_id.amount", string="Taxes")
-
     untaxed_amount = fields.Float(string="Untaxed Amount")
+    taxes_amount = fields.Float(string="Taxes")
     amount_total = fields.Float(string="Total", compute="_compute_amount_total", store=1)
 
     invoice_line_ids = fields.One2many('school.invoice.line', 'invoice_id', string="Order Lines")
@@ -59,10 +57,10 @@ class SchoolInvoice(models.Model):
             res.name  = self.env['ir.sequence'].next_by_code('school.invoice.sequence')
         return res
 
-    @api.depends('tax_id', 'untaxed_amount')
+    @api.depends('untaxed_amount', 'taxes_amount', 'timbre_fiscal')
     def _compute_amount_total(self):
         for rec in self:
-            rec.amount_total = rec.untaxed_amount + rec.tax_amount + rec.timbre_fiscal_amount
+            rec.amount_total = rec.untaxed_amount + rec.taxes_amount + rec.timbre_fiscal_amount
     
 
 
@@ -86,6 +84,7 @@ class InvoiceLine(models.Model):
                               domain="[('product_type', '=', product_type)]")
     
     unit_price = fields.Float(related='product_id.unit_price', store=True)
+    taxes_id = fields.Many2many('account.tax', related="product_id.taxes_id")
 
     quantity = fields.Integer(string="Quantity", default=0)
     total = fields.Float(string="Subtotal")

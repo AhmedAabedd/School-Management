@@ -20,9 +20,9 @@ class SchoolProduct(models.Model):
             ('book','Book')
         ], string='Product Type'
     )
+
     unit_price = fields.Float(string="Unit Price")
-    description = fields.Text(string="Description")
-    active = fields.Boolean(string="Active", default=True)
+    taxes_id = fields.Many2many('account.tax', string="Taxes")
     
     available_qty = fields.Integer(string="Available Quantity")
     state = fields.Selection([
@@ -33,6 +33,8 @@ class SchoolProduct(models.Model):
            default='available',
            store=True
     )
+    active = fields.Boolean(string="Active", default=True)
+    description = fields.Text(string="Description")
 
 
     ##################################################################

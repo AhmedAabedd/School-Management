@@ -39,11 +39,15 @@
                                     <field name="quantity"/>
                                     <field name="unit_price"/>
                                     <field name="currency_id" invisible="1"/>
+                                    <field name="taxes_id" widget="many2many_tags"/>
+                                    <field name="taxes_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     <field name="total"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer">
-                                <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" class="oe_subtotal_value h2"/>
+                                <field name="untaxed_total" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1"/>
+                                <field name="taxes_total" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-muted="1"/>
+                                <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1" class="oe_subtotal_value h3"/>
                             </group> 
                         </page>
                         <page string="Other Infos">
@@ -55,7 +59,7 @@
                 </sheet>
                 <!--<footer>
                     <group>
-                        <field name="amount_total"/>
+                        <field name="untaxed_total"/>
                         <button name="action_confirm" type="object" string="Confirm" class="btn-primary"/>
                     </group>
                 </footer>-->

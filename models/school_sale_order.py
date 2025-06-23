@@ -23,7 +23,9 @@ class SchoolSaleOrder(models.Model):
         ('cancelled', 'Cancelled')
     ], default='draft', string="Status", tracking=True)
 
-    amount_total = fields.Float(string="Total", compute="_compute_amount_total", store=True)
+    untaxed_total = fields.Float(string="Untaxed Amount", compute="_compute_untaxed_total", store=True)
+    taxes_total = fields.Float(string="Taxes", compute="_compute_taxes_total")
+    amount_total = fields.Float(string="Total", compute="_compute_amount_total", store=1)
 
     currency_id = fields.Many2one('res.currency', string="Currency", default=lambda self: self.env.company.currency_id)
 
@@ -80,17 +82,26 @@ class SchoolSaleOrder(models.Model):
         res = super(SchoolSaleOrder , self).create(vals)
         return res
     
+    @api.depends('order_line_ids.total')
+    def _compute_untaxed_total(self):
+        for rec in self:
+            rec.untaxed_total = sum(line.total for line in rec.order_line_ids)
+    
+    def _compute_taxes_total(self):
+        for rec in self:
+            rec.taxes_total = 0.0
+            for line in rec.order_line_ids:
+                rec.taxes_total += line.taxes_amount
+    
+    @api.depends('untaxed_total', 'taxes_total')
+    def _compute_amount_total(self):
+        for rec in self:
+            rec.amount_total = rec.untaxed_total + rec.taxes_total
+
     def _compute_invoice_count(self):
         for rec in self:
             rec.invoice_count = self.env['school.invoice'].search_count([('sale_order_id', '=', rec.id)])
-    
-    
-    @api.depends('order_line_ids.total')
-    def _compute_amount_total(self):
-        for rec in self:
-            total = sum(line.total for line in rec.order_line_ids)
-            rec.amount_total = total
-    
+
     def action_view_invoice(self):
         self.ensure_one()
         if self.invoice_count == 0:
@@ -126,7 +137,8 @@ class SchoolSaleOrder(models.Model):
                 'default_sale_order_id': self.id,
                 'default_parent_id': self.parent_id.id,
                 'default_currency_id': self.currency_id.id,
-                'default_untaxed_amount': self.amount_total,
+                'default_untaxed_amount': self.untaxed_total,
+                'default_taxes_amount': self.taxes_total,
                 'default_invoice_line_ids': invoice_lines,
             }
         }
@@ -151,11 +163,14 @@ class SaleOrderLine(models.Model):
                               domain="[('product_type', '=', product_type)]")
     
     unit_price = fields.Float(related='product_id.unit_price', store=True)
+    taxes_id = fields.Many2many('account.tax', related="product_id.taxes_id")
 
     quantity = fields.Integer(string="Quantity", default=0)
     total = fields.Float(string="Subtotal", compute="_compute_line_total", store=True)
+
+    taxes_amount = fields.Float(string="Taxes Amount", compute="_compute_taxes_amount", store=1)
+
     currency_id = fields.Many2one(related='sale_order_id.currency_id', string="Currency", store=True)
-    invoice_id = fields.Many2one('school.invoice', readonly=1)
 
     aux = fields.Integer(string='Aux', default=0)
 
@@ -171,6 +186,16 @@ class SaleOrderLine(models.Model):
     def _compute_line_total(self):
         for rec in self:
             rec.total = rec.unit_price * rec.quantity
+    
+    @api.depends('total', 'taxes_id')
+    def _compute_taxes_amount(self):
+        for rec in self:
+            rec.taxes_amount = 0.0
+            for tax in rec.taxes_id:
+                if tax.amount_type == 'fixed':
+                    rec.taxes_amount += tax.amount
+                elif tax.amount_type == 'percent':
+                    rec.taxes_amount += (tax.amount * rec.total) / 100
 
     #Warning when selecting invalid quantity
     @api.onchange('quantity')
