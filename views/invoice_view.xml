@@ -7,9 +7,20 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar"/>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_paid" string="Register Payment" type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('payment_state', '=', 'paid')]}"/>
+                    <button name="action_draft" string="Reset To Draft" type="object" class="oe-link"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="oe-link"
+                            attrs="{'invisible': [('state', 'in', ['cancelled', 'posted'])]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Paid" bg_color="bg-success" attrs="{'invisible': [('payment_state', '!=', 'paid')]}"/>
+                    <field name="payment_state" invisible="1"/>
+                    <widget name="web_ribbon" title="Partial" bg_color="bg-warning" attrs="{'invisible': [('payment_state', '!=', 'partial')]}"/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
@@ -58,14 +69,20 @@
         <field name="name">school.invoice.tree</field>
         <field name="model">school.invoice</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
                 <field name="name"/>
                 <field name="parent_id"/>
-                <field name="due_date"/>
+                <field name="decoration_due_date" invisible="1"/>
+                <field name="due_date" decoration-warning="decoration_due_date == 'warning'"
+                                       decoration-danger="decoration_due_date == 'danger'"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                <field name="payment_state"/>
-                <field name="state"/>
+                <field name="payment_state" widget="badge" decoration-success="payment_state == 'paid'"
+                                                           decoration-danger="payment_state == 'notpaid'"
+                                                           decoration-warning="payment_state == 'partial'"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                                                   decoration-success="state == 'posted'"
+                                                   decoration-muted="state == 'cancelled'"/>
             </tree>
         </field>
     </record>

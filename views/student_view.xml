@@ -106,16 +106,78 @@
                                 </tree>
                             </field>
                         </page>
-                        <!--<page name="Second Responsible" String="Second Responsible">
-                            <group>
-                                <field name="second_responsible_id"/>
-                            </group> 
-                        </page>-->
                     </notebook>
                 </sheet>
             </form>
         </field>
     </record>
+
+    <record id="view_school_student_kanban" model="ir.ui.view">
+    <field name="name">school.student.kanban</field>
+    <field name="model">school.student</field>
+    <field name="arch" type="xml">
+        <kanban class="o_kanban_example">
+            <!-- Fields needed in JS -->
+            <field name="student_name"/>
+            <field name="student_state"/>
+            <field name="reference"/>
+            <field name="image"/>
+            <field name="gender"/>
+            <field name="age"/>
+            <field name="phone"/>
+            <field name="mail"/>
+            <field name="responsible_id"/>
+            <field name="level_id"/>
+            <field name="class_id"/>
+            <field name="academic_year_id"/>
+
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card oe_kanban_global_click">
+                        <!-- Status -->
+                        <div class="oe_kanban_details">
+                            <field name="student_state" widget="badge"/>
+                        </div>
+
+                        <!-- Image & Name -->
+                        <div class="o_kanban_image_and_text">
+                            <div class="o_kanban_image">
+                                <img t-if="record.image.raw_value"
+                                     t-att-src="'data:image/png;base64,' + record.image.raw_value"
+                                     class="img img-fluid rounded-circle"
+                                     style="width:64px; height:64px;"/>
+                                <div t-if="!record.image.raw_value"
+                                     class="o_kanban_avatar bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:64px; height:64px;">
+                                    <i class="fa fa-user"/>
+                                </div>
+                            </div>
+
+                            <div class="o_kanban_text ml-2">
+                                <strong><field name="student_name"/></strong><br/>
+                                <span class="text-muted"><field name="reference"/></span>
+                            </div>
+                        </div>
+
+                        <!-- Details -->
+                        <div class="mt-2">
+                            <div><strong>Gender:</strong> <field name="gender"/></div>
+                            <div><strong>Age:</strong> <field name="age"/></div>
+                            <div t-if="record.phone.raw_value"><strong>Phone:</strong> <field name="phone"/></div>
+                            <div t-if="record.mail.raw_value"><strong>Email:</strong> <field name="mail"/></div>
+                            <div t-if="record.responsible_id.raw_value"><strong>Responsible:</strong> <field name="responsible_id"/></div>
+                            <div><strong>Level:</strong> <field name="level_id"/></div>
+                            <div><strong>Class:</strong> <field name="class_id"/></div>
+                            <div><strong>Year:</strong> <field name="academic_year_id"/></div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+
 
 
 

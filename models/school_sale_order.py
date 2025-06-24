@@ -24,7 +24,7 @@ class SchoolSaleOrder(models.Model):
     ], default='draft', string="Status", tracking=True)
 
     untaxed_total = fields.Float(string="Untaxed Amount", compute="_compute_untaxed_total", store=True)
-    taxes_total = fields.Float(string="Taxes", compute="_compute_taxes_total")
+    taxes_total = fields.Float(string="Taxes", compute="_compute_taxes_total", store=1)
     amount_total = fields.Float(string="Total", compute="_compute_amount_total", store=1)
 
     currency_id = fields.Many2one('res.currency', string="Currency", default=lambda self: self.env.company.currency_id)
@@ -87,6 +87,7 @@ class SchoolSaleOrder(models.Model):
         for rec in self:
             rec.untaxed_total = sum(line.total for line in rec.order_line_ids)
     
+    @api.depends('order_line_ids.taxes_amount')
     def _compute_taxes_total(self):
         for rec in self:
             rec.taxes_total = 0.0

@@ -20,7 +20,7 @@ class SchoolInvoice(models.Model):
 
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('confirmed', 'Confirmed'),
+        ('posted', 'Posted'),
         ('cancelled', 'Cancelled')
     ], default='draft', string="Status")
 
@@ -39,6 +39,34 @@ class SchoolInvoice(models.Model):
 
     invoice_line_ids = fields.One2many('school.invoice.line', 'invoice_id', string="Order Lines")
 
+    decoration_due_date = fields.Selection([
+        ('normal', 'Normal'),
+        ('warning', 'Warning'),
+        ('danger', 'Danger'),
+    ], compute="_compute_decoration_due_date")
+
+
+    ##################### STATE ACTIONS ########################################
+
+    def action_confirm(self):
+        for rec in self:
+            rec.state = 'posted'
+
+    def action_paid(self):
+        for rec in self:
+            rec.payment_state = 'paid'
+    
+    def action_draft(self):
+        for rec in self:
+            rec.payment_state = 'notpaid'
+            rec.state = 'draft'
+    
+    def action_cancel(self):
+        for rec in self:
+            rec.state = 'cancelled'
+
+    ############################################################################
+
 
 
     #Affecting value to timbre fiscal field
@@ -49,13 +77,24 @@ class SchoolInvoice(models.Model):
         defaults['timbre_fiscal'] = timbre_fiscal_tax
         return defaults
 
-    #Generate auto sequence(name)
+    #Generate auto sequence (name)
     @api.model
     def create(self, vals):
         res = super(SchoolInvoice,self).create(vals)
         if res.name == 'New':
             res.name  = self.env['ir.sequence'].next_by_code('school.invoice.sequence')
         return res
+    
+    def _compute_decoration_due_date(self):
+        for rec in self:
+            today = fields.Date.today()
+            delta = (rec.due_date - today).days
+            if delta == 0:
+                rec.decoration_due_date = 'warning'
+            elif delta < 0:
+                rec.decoration_due_date = 'danger'
+            else:
+                rec.decoration_due_date = 'normal'
 
     @api.depends('untaxed_amount', 'taxes_amount', 'timbre_fiscal')
     def _compute_amount_total(self):
