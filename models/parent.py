@@ -40,6 +40,7 @@ class SchoolParent(models.Model):
         'parent_id',
         domain="[('parent_id', '=', id)]"
     )
+    sale_order_count = fields.Integer(string="Sale Order", compute="_compute_sale_order_count")
     
 
 
@@ -92,6 +93,10 @@ class SchoolParent(models.Model):
         if self.env.context.get('from_second_responsible'):
             defaults['is_second_responsible'] = True
         return defaults
+    
+    def _compute_sale_order_count(self):
+        for rec in self:
+            rec.sale_order_count = self.env['school.sale.order'].search_count([('parent_id', '=', rec.id)])
 
 
 ###########################  CONSTRAINS ##############################################################
@@ -122,15 +127,29 @@ class SchoolParent(models.Model):
 ########################################################################################################
 
     #calling default "create" action of school sale order model
-    def create_sale_order(self):
+    def action_create_sale_order(self):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Create Sale Order',
             'res_model': 'school.sale.order',
             'view_mode': 'form',
-            'target': 'new',#to open in wizard
+            'target': 'new', #to open in wizard
             'context': {
                 'default_parent_id': self.id,
                 'default_from_parent_form': True,
+            }
+        }
+    
+    def action_view_sale_order(self):
+       return {
+            'type': 'ir.actions.act_window',
+            'name': 'View Sale Order',
+            'res_model': 'school.sale.order',
+            'view_mode': 'tree,form',
+            'target': 'current', #to open in new view
+            'domain': [('parent_id', '=', self.id)],
+            'context': {
+                'default_parent_id': self.id,
+                'default_from_parent_form': True
             }
         }

@@ -13,8 +13,8 @@
                     <field name="image" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
                         <h1>
-                            <field name="name"/>
                             <label for="name">Product Name</label>
+                            <field name="name"/>
                         </h1>
                     </div>
                     <group> 
