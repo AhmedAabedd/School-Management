@@ -54,6 +54,12 @@
                 parent="menu_parent_root"
                 action="action_school_res_sec_responsible"
                 sequence="40"/>
+        
+        <menuitem id="menu_res_partner"
+                name="Res Partner"
+                parent="menu_parent_root"
+                action="action_res_partner"
+                sequence="50"/>
 
 <!--Teachers-->
     <menuitem id="menu_teacher_root"

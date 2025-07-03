@@ -121,8 +121,8 @@ class SchoolStudent(models.Model):
     @api.onchange('responsible_id','use_responsible_address')
     def onchange_use_responsible_address(self):
         if self.responsible_id and self.use_responsible_address:
-            self.nationality_id = self.responsible_id.nationality_id.id
-            self.city_id = self.responsible_id.city_id.id
+            self.nationality_id = self.responsible_id.country_id.id
+            self.city_id = self.responsible_id.state_id.id
             self.zip = self.responsible_id.zip
             self.street = self.responsible_id.street
         else:
@@ -157,24 +157,24 @@ class SchoolStudent(models.Model):
     #Check phone format
     @api.constrains('phone')
     def _check_phone_format(self):
-        for student in self:
-            if student.phone:
-                if not re.match(r'^[1-9]\d{7}$', student.phone):
+        for rec in self:
+            if rec.phone:
+                if not re.match(r'^[1-9]\d{7}$', rec.phone):
                     raise ValidationError(_("Please check your phone number format !"))
 
     #Check mail format
     @api.constrains('mail')
     def _check_mail_format(self):
-        for student in self:
-            if student.mail:
-                if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', student.mail):
+        for rec in self:
+            if rec.mail:
+                if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', rec.mail):
                     raise ValidationError(_("Please check your Email format !"))
 
     #Check age not negative or null
     @api.constrains('age')
     def _check_age_negative(self):
-        for student in self:
-            if student.age <= 0:
+        for rec in self:
+            if rec.age <= 0:
                 raise ValidationError(_("Age cannot be negative or null !"))
             
 ##########################################################################################

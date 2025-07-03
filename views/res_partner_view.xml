@@ -6,12 +6,15 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='vat']" position="after">
+            <xpath expr="//field[@name='company_type']" position="after">
                 <group>
                     <field name="is_school_parent" widget="boolean_toggle"/>
-                    <field name="is_second_responsible" widget="boolean_toggle"/>
+                    <field name="is_second_responsible" widget="boolean_toggle" />
                 </group>
             </xpath>
+            <!--<xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>-->
         </field>
     </record>
 

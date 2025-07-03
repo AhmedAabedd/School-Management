@@ -101,7 +101,7 @@
                         <page name="Second Responsibles" String="Second Responsibles">
                             <field name="second_responsible_ids">
                                 <tree>
-                                    <field name="parent_name"/>
+                                    <field name="name"/>
                                     <field name="phone"/>
                                 </tree>
                             </field>

@@ -11,29 +11,27 @@ class SchoolParent(models.Model):
     _name = "school.parent"
     _inherit = ['mail.thread','mail.activity.mixin']
     _description = "School Parent"
-    _rec_name = "parent_name"
 
     
+    partner_id = fields.Many2one('res.partner', delegate=1, required=True, ondelete='cascade')
     is_second_responsible = fields.Boolean(string="Is second responsible", default=False)
-    parent_name = fields.Char(string="Name", required=0)
-    reference = fields.Char(string="Reference", required=True, copy=False, readonly=True,
+    #parent_name -> name
+    reference = fields.Char(string="Ref", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
-    civility_id = fields.Many2one('responsible.civility', string="Civility")
-    phone = fields.Char(string="Phone Number", required=0)
-    mail = fields.Char(string="Email")
+    #civility_id -> title
+    #phone
+    #mail -> email
     job_id = fields.Many2one('responsible.job', string="Job")
     establishment = fields.Char(string="Establishment")
     personnal_adress = fields.Char(string="Personnal Adress")
-    nationality_id = fields.Many2one("res.country", string="Nationality")
-    city_id = fields.Many2one("res.country.state", string="City")
-    zip = fields.Char(string="Zip")
-    street = fields.Char(string="Street")
+    #nationality_id -> country_id
+    #city_id -> state_id
+    #zip
+    #street
     work_adress = fields.Char(string="Work Adress")
     family_situation_id = fields.Many2one('school.familysituation', string="Family Situation")
-    note = fields.Text(string='Description')
-    #children_ids = fields.One2many('school.student', 'responsible_id', string="Childrens Lines")
+    #note -> comment
 
-    #second_responsible_ids = fields.One2many('school.secondresponsible', 'main_responsible_id', string="Second Responsible")
 
     sale_order_ids = fields.One2many(
         'school.sale.order',
@@ -49,8 +47,8 @@ class SchoolParent(models.Model):
     #Computed One2many field for main Children (li teba3 lparent)
     main_children_ids = fields.One2many(
         'school.student',
+        string="All Children",
         compute='_compute_main_children',
-        string="All Children"
     )
     #Computed One2many field for secondry Children (li teba3 lsecond responsible)
     second_children_ids = fields.One2many(
@@ -61,14 +59,14 @@ class SchoolParent(models.Model):
     
     @api.depends('is_second_responsible')
     def _compute_main_children(self):
-        for parent in self:
-            parent.main_children_ids = self.env['school.student'].search([('responsible_id', '=', parent.id)])
+        for rec in self:
+            rec.main_children_ids = self.env['school.student'].search([('responsible_id', '=', rec.id)])
             
     
     @api.depends('is_second_responsible')
     def _compute_second_children(self):
-        for parent in self:
-            parent.second_children_ids = self.env['school.student'].search([('second_responsible_ids', 'in', [parent.id])])
+        for rec in self:
+            rec.second_children_ids = self.env['school.student'].search([('second_responsible_ids', 'in', [rec.id])])
     ########################################################################################
 
 
@@ -103,25 +101,25 @@ class SchoolParent(models.Model):
 
     #Check phone number format
     @api.constrains('phone')
-    def _check_mail_format(self):
-        for parent in self:
-            if parent.phone:
-                if not re.match(r'^[1-9]\d{7}$', parent.phone):
+    def _check_phone_format(self):
+        for rec in self:
+            if rec.phone:
+                if not re.match(r'^[1-9]\d{7}$', rec.phone):
                     raise ValidationError(_("Please check your phone number format !"))
     
-    #Check mail format
-    @api.constrains('mail')
-    def _check_mail_format(self):
-        for teacher in self:
-            if teacher.mail:
-                if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', teacher.mail):
+    #Check email format
+    @api.constrains('email')
+    def _check_email_format(self):
+        for rec in self:
+            if rec.email:
+                if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', rec.email):
                     raise ValidationError(_("Please check your Email format !"))
                 
     #Check age not nagative or null
     @api.constrains('age')
     def _check_age_negative(self):
-        for teacher in self:
-            if teacher.age <= 0:
+        for rec in self:
+            if rec.age <= 0:
                 raise ValidationError(_("Age cannot be negative or null !"))
 
 ########################################################################################################
@@ -153,3 +151,23 @@ class SchoolParent(models.Model):
                 'default_from_parent_form': True
             }
         }
+    
+    ################ INHERITED METHODS ####################################################
+
+    def action_view_partner_invoices(self):
+        if self.partner_id:
+            action = self.partner_id.action_view_partner_invoices()
+            if action and isinstance(action, dict):
+                context = dict(action.get('context') or {})
+                context.update({'default_partner_id': self.partner_id.id})
+                action['context'] = context
+            return action
+
+    def action_view_sale_order(self):
+        if self.partner_id:
+            action = self.partner_id.action_view_sale_order()
+            if action and isinstance(action, dict):
+                context = dict(action.get('context') or {})
+                context.update({'default_partner_id': self.partner_id.id})
+                action['context'] = context
+            return action

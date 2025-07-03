@@ -20,5 +20,6 @@ from . import school_program
 from . import school_invoice
 ####### inherited models ##########
 from . import school_product_template
-from . import school_res_partner
+from . import res_partner
 from . import sale_order
+from . import school_res_partner
