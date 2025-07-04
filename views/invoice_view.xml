@@ -92,7 +92,6 @@
     <!-- ACTION -->
     <record id="action_school_invoice" model="ir.actions.act_window">
         <field name="name">Our Invoices</field>
-        <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.invoice</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="help" type="html">

@@ -22,4 +22,3 @@ from . import school_invoice
 from . import school_product_template
 from . import res_partner
 from . import sale_order
-from . import school_res_partner

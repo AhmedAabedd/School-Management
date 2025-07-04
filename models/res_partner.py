@@ -6,11 +6,26 @@ import re
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     is_school_parent = fields.Boolean(string="Is School Parent")
     is_second_responsible = fields.Boolean(string="Is Second Responsible")
+
+class SchoolResPartner(models.Model):
+    _name = 'school.res.partner'
+
+
+
+    partner_id = fields.Many2one('res.partner', delegate=1, required=True, ondelete='cascade')
+
+    is_school_parent = fields.Boolean(string="Is School Parent")
+    is_second_responsible = fields.Boolean(string="Is Second Responsible")
+
+    establishment = fields.Char(string="Establishment")
+    reference = fields.Char(string="Ref", required=True, copy=False, default=lambda self: _('New'))
+    family_situation_id = fields.Many2one('school.familysituation')
     
     
     
@@ -45,6 +60,17 @@ class ResPartner(models.Model):
 
     # Initialisation of some fields depending on is_school_parent and is_second_responsible
     @api.model
+    def create(self, vals):
+        res = super(SchoolResPartner,self).create(vals)
+        
+        res.is_school_parent == True
+        res.company_type == 'individual'
+        res.is_second_responsible == True
+        
+        return res
+
+
+
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         if self.env.context.get('from_school_menu'):
@@ -53,6 +79,13 @@ class ResPartner(models.Model):
             if self.env.context.get('from_second_responsible'):
                 defaults['is_second_responsible'] = True
         return defaults
+    
+    @api.model
+    def create(self, vals):
+        if vals.get('reference', _('New')) == _('New'):
+            vals['reference'] = self.env['ir.sequence'].next_by_code('school.partner.sequence') or _('New')
+        res = super(ResPartner , self).create(vals)
+        return res
 
 
 

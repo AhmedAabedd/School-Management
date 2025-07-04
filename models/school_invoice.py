@@ -86,15 +86,16 @@ class SchoolInvoice(models.Model):
         return res
     
     def _compute_decoration_due_date(self):
+        today = fields.Date.today()
         for rec in self:
-            today = fields.Date.today()
-            delta = (rec.due_date - today).days
-            if delta == 0:
-                rec.decoration_due_date = 'warning'
-            elif delta < 0:
-                rec.decoration_due_date = 'danger'
-            else:
-                rec.decoration_due_date = 'normal'
+            rec.decoration_due_date = 'normal'  # Default value
+            if rec.due_date:
+                delta = (rec.due_date - today).days
+                if delta == 0:
+                    rec.decoration_due_date = 'warning'
+                elif delta < 0:
+                    rec.decoration_due_date = 'danger'
+
 
     @api.depends('untaxed_amount', 'taxes_amount', 'timbre_fiscal')
     def _compute_amount_total(self):
