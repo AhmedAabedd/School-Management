@@ -9,11 +9,11 @@ from datetime import datetime
 
 class SchoolParent(models.Model):
     _name = "school.parent"
-    _inherit = ['mail.thread','mail.activity.mixin']
+    #_inherit = ['mail.thread','mail.activity.mixin']
     _description = "School Parent"
 
     
-    partner_id = fields.Many2one('res.partner', delegate=1, required=True, ondelete='cascade')
+    #partner_id = fields.Many2one('res.partner', delegate=1, required=True, ondelete='cascade')
     is_second_responsible = fields.Boolean(string="Is second responsible", default=False)
     #parent_name -> name
     reference = fields.Char(string="Ref", required=True, copy=False, readonly=True,

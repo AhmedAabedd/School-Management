@@ -43,11 +43,11 @@ class SchoolStudent(models.Model):
         domain="[('is_second_responsible', '=', False)]",
         required=True
     )
-    parent_id = fields.Many2one(
-        'res.partner',
-        string="Parent Name",
-        domain="[('is_school_parent', '=', True), ('is_second_responsible', '=', False)]"
-    )
+    #parent_id = fields.Many2one(
+        #'res.partner',
+        #string="Parent Name",
+        #domain="[('is_school_parent', '=', True), ('is_second_responsible', '=', False)]"
+    #)
 
     relation_id = fields.Many2one('responsible.relation', string="Relation")
     
@@ -90,11 +90,11 @@ class SchoolStudent(models.Model):
         domain="[('is_second_responsible','=',True),('id', '!=', responsible_id)]"
     )
 
-    sec_responsible_ids = fields.Many2many(
-        'res.partner',
-        string="Seconds Responsible",
-        domain="[('is_school_parent', '=', True), ('is_second_responsible','=',True),('id', '!=', responsible_id)]"
-    )
+    #sec_responsible_ids = fields.Many2many(
+        #'res.partner',
+        #string="Seconds Responsible",
+        #domain="[('is_school_parent', '=', True), ('is_second_responsible','=',True),('id', '!=', responsible_id)]"
+    #)
 
     #second_responsible_ids = fields.Many2many(
     #    "school.parent",                  # Related model (Parent)
@@ -118,13 +118,13 @@ class SchoolStudent(models.Model):
 
 
     #Assinging responsible Address to student Address infos
-    @api.onchange('parent_id','use_responsible_address')
+    @api.onchange('responsible_id','use_responsible_address')
     def onchange_use_responsible_address(self):
-        if self.parent_id and self.use_responsible_address:
-            self.nationality_id = self.parent_id.country_id.id
-            self.city_id = self.parent_id.state_id.id
-            self.zip = self.parent_id.zip
-            self.street = self.parent_id.street
+        if self.responsible_id and self.use_responsible_address:
+            self.nationality_id = self.responsible_id.country_id.id
+            self.city_id = self.responsible_id.state_id.id
+            self.zip = self.responsible_id.zip
+            self.street = self.responsible_id.street
         else:
             self.nationality_id = ''
             self.city_id = ''

@@ -18,6 +18,3 @@ access_school_test,access_school_test,model_school_test,,1,1,1,1
 access_school_sale_order,access_school_sale_order,model_school_sale_order,,1,1,1,1
 access_school_enrollment,access_school_senrollment,model_school_enrollment,,1,1,1,1
 access_school_program,access_school_program,model_school_program,,1,1,1,1
-access_product_template,access_product_template,model_product_template,,1,1,1,1
-access_res_partner,access_res_partner,model_res_partner,,1,1,1,1
-access_sale_order,access_sale_order,model_sale_order,,1,1,1,1
