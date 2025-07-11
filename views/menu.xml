@@ -43,6 +43,12 @@
                 action="action_school_second_responsible"
                 sequence="20"/>
 
+        <menuitem id="menu_partner"
+                name="Res Parents"
+                parent="menu_parent_root"
+                action="action_school_partner"
+                sequence="30"/>
+
 <!--Teachers-->
     <menuitem id="menu_teacher_root"
             name="Teachers"
