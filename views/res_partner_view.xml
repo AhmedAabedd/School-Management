@@ -29,7 +29,7 @@
     </record>
 
     <record id="action_school_partner" model="ir.actions.act_window">
-        <field name="name">Res Parentsssss</field>
+        <field name="name">Res Parents</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0), 
