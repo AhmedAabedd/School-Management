@@ -9,7 +9,7 @@
             <tree>
                 <field name="reference"/>
                 <field name="student_name"/>
-                <field name="responsible_id"/>
+                <!--<field name="responsible_id"/>-->
                 <field name="age"/>
                 <field name="gender"/>
             </tree>
@@ -49,15 +49,16 @@
                                     <field name="birth_country_id"/>
                                     <field name="birth_state_id"/>
                                     <field name="use_responsible_address" widget="boolean_toggle"/>
-                                    <field name="nationality_id" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
-                                    <field name="city_id" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
-                                    <field name="zip" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
-                                    <field name="street" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('responsible_id','=',False)]}" force_save="1"/>
+                                    <field name="nationality_id" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('parent_id','=',False)]}" force_save="1"/>
+                                    <field name="city_id" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('parent_id','=',False)]}" force_save="1"/>
+                                    <field name="zip" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('parent_id','=',False)]}" force_save="1"/>
+                                    <field name="street" attrs="{'readonly':[('use_responsible_address','=',True)], 'invisible':[('use_responsible_address','=',True),('parent_id','=',False)]}" force_save="1"/>
                                 </group>
                             </group>
                             <group>
                                 <group name="student_responsible" string="RESPONSIBLE">
-                                    <field name="responsible_id"/>
+                                    <!--<field name="responsible_id"/>-->
+                                    <field name="parent_id"/>
                                     <field name="relation_id"/>
                                 </group>
                             </group>

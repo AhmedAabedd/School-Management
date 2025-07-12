@@ -11,14 +11,14 @@
             <field name="company_id" eval="False"/>
         </record>
 
-        <!-- SEQUENCE FOR PARENT -->
+        <!-- SEQUENCE FOR PARENT 
         <record id="seq_school_parent" model="ir.sequence">
             <field name="name">Parent Sequence</field>
             <field name="code">school.parent.sequence</field>
             <field name="prefix">PAR</field>
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
-        </record>
+        </record>-->
 
         <!-- SEQUENCE FOR TEACHER -->
         <record id="seq_school_teacher" model="ir.sequence">

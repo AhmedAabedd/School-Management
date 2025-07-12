@@ -6,23 +6,84 @@
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="is_school_parent"/>
-                <field name="is_second_responsible"/>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
             </tree>
         </field>
     </record>
 
-    <!-- Your Custom Form View -->
     <record id="view_res_partner_form" model="ir.ui.view">
         <field name="name">school.partner.form</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_children" icon="fa-child">
+                            <field name="children_count" string="Children" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_view_sale_order"
+                            groups="sales_team.group_sale_salesman"
+                            icon="fa-usd" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                            <field name="sale_order_count" string="Sales" widget="statinfo"/>
+                        </button>
+                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_parent_invoices" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="total_invoiced" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </span>
+                                <span class="o_stat_text">Invoiced</span>
+                            </div>
+                            <!--<field name="invoices_count" string="Invoices" widget="statinfo"/>-->
+                        </button>
+                    </div>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
                     <group>
-                        <field name="is_school_parent"/>
-                        <field name="is_second_responsible"/>
+                        <field name="reference" nolabel="1" readonly="1"/>
                     </group>
+                    <div class="oe_title mb-3">
+                        <h1>
+                            <label for="name">Parent Name</label>
+                            <field name="name" placeholder="e.g. Mounir Ben Salah"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="is_school_parent" widget="boolean_toggle" readonly="0"/>
+                        <field name="is_second_responsible" widget="boolean_toggle" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page name="parent_general_info" string="General Information">
+                            <group>
+                                <group string="Personal &amp; Professional Info">
+                                    <field name="title"/>
+                                    <field name="job_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="establishment" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="family_situation_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                </group>
+                                <group string="Address Information">
+                                    <field name="country_id" placeholder="e.g. Tunisia"/>
+                                    <field name="state_id" placeholder="e.g. Ben Arous" options="{'no_open': True, 'no_quick_create': True}"/>
+                                    <field name="city" placeholder="e.g. Rades"/>
+                                    <field name="street" placeholder="e.g. Rue Khaznadar"/>
+                                    <field name="zip" placeholder="e.g. 2034"/>
+                                    <field name="work_adress"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Contacts">
+                                    <field name="email" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="phone"/>
+                                    <field name="personnal_adress"/>
+                                </group>
+                            </group>    
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -36,6 +97,8 @@
             (0, 0, {'view_mode': 'tree', 'view_id': ref('view_res_partner_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('view_res_partner_form')})
         ]"/>
+        <field name="domain">[('is_school_parent', '=', True)]</field>
+        <field name="context">{'from_parent_menu': True}</field>
     </record>
 
 

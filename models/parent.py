@@ -45,28 +45,28 @@ class SchoolParent(models.Model):
 
     ########################################################################################
     #Computed One2many field for main Children (li teba3 lparent)
-    main_children_ids = fields.One2many(
-        'school.student',
-        string="All Children",
-        compute='_compute_main_children',
-    )
+    #main_children_ids = fields.One2many(
+    #    'school.student',
+    #    string="All Children",
+    #    compute='_compute_main_children',
+    #)
     #Computed One2many field for secondry Children (li teba3 lsecond responsible)
-    second_children_ids = fields.One2many(
-        'school.student',
-        compute='_compute_second_children',
-        string="All Children"
-    )
+    #second_children_ids = fields.One2many(
+    #    'school.student',
+    #    compute='_compute_second_children',
+    #    string="All Children"
+    #)
     
-    @api.depends('is_second_responsible')
-    def _compute_main_children(self):
-        for rec in self:
-            rec.main_children_ids = self.env['school.student'].search([('responsible_id', '=', rec.id)])
+    #@api.depends('is_second_responsible')
+    #def _compute_main_children(self):
+        #for rec in self:
+            #rec.main_children_ids = self.env['school.student'].search([('responsible_id', '=', rec.id)])
             
     
-    @api.depends('is_second_responsible')
-    def _compute_second_children(self):
-        for rec in self:
-            rec.second_children_ids = self.env['school.student'].search([('second_responsible_ids', 'in', [rec.id])])
+    #@api.depends('is_second_responsible')
+    #def _compute_second_children(self):
+        #for rec in self:
+            #rec.second_children_ids = self.env['school.student'].search([('second_responsible_ids', 'in', [rec.id])])
     ########################################################################################
 
 

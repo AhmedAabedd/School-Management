@@ -79,7 +79,7 @@
                                 </group>
                             </group>    
                         </page>
-                        <page name="Children" attrs="{'invisible':[('is_second_responsible','=',True)]}">
+                        <!--<page name="Children" attrs="{'invisible':[('is_second_responsible','=',True)]}">
                             <field name="main_children_ids">
                                 <tree>
                                     <field name="student_name"/>
@@ -95,7 +95,7 @@
                                 </tree>
                             </field>
 
-                        </page>
+                        </page>-->
                         <page name="Sale Orders" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
                             <field name="sale_order_ids">
                                 <tree create="0" edit="0" decoration-info="state == 'confirmed'"
