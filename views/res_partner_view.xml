@@ -5,12 +5,12 @@
         <field name="name">school.partner.tree</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="reference"/>
                 <field name="name"/>
                 <field name="phone"/>
                 <field name="email"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -29,10 +29,10 @@
                         </button>
                         <button class="oe_stat_button" type="object" name="action_view_sale_order"
                             groups="sales_team.group_sale_salesman"
-                            icon="fa-usd" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                            icon="fa-usd" invisible="is_second_responsible == True">
                             <field name="sale_order_count" string="Sales" widget="statinfo"/>
                         </button>
-                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_parent_invoices" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                        <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_parent_invoices" invisible="is_second_responsible == True">
                             <div class="o_form_field o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="currency_id" invisible="1"/>
@@ -62,9 +62,9 @@
                             <group>
                                 <group string="Personal &amp; Professional Info">
                                     <field name="title"/>
-                                    <field name="job_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
-                                    <field name="establishment" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
-                                    <field name="family_situation_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="job_id" invisible="is_second_responsible == True"/>
+                                    <field name="establishment" invisible="is_second_responsible == True"/>
+                                    <field name="family_situation_id" invisible="is_second_responsible == True"/>
                                 </group>
                                 <group string="Address Information">
                                     <field name="country_id" placeholder="e.g. Tunisia"/>
@@ -77,7 +77,7 @@
                             </group>
                             <group>
                                 <group string="Contacts">
-                                    <field name="email" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="email" invisible="is_second_responsible == True"/>
                                     <field name="phone"/>
                                     <field name="personnal_adress"/>
                                 </group>
@@ -92,9 +92,9 @@
     <record id="action_school_partner" model="ir.actions.act_window">
         <field name="name">Res Parents</field>
         <field name="res_model">res.partner</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="view_ids" eval="[(5, 0, 0), 
-            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_res_partner_tree')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_res_partner_tree')}),
             (0, 0, {'view_mode': 'form', 'view_id': ref('view_res_partner_form')})
         ]"/>
         <field name="domain">[('is_school_parent', '=', True)]</field>

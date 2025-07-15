@@ -8,19 +8,19 @@
             <form>
                 <header>
                     <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                            invisible="state != 'draft'"/>
                     <button name="action_paid" string="Register Payment" type="object" class="oe_highlight"
-                            attrs="{'invisible': ['|', ('state', '!=', 'posted'), ('payment_state', '=', 'paid')]}"/>
+                            invisible="state != 'posted' or payment_state == 'paid'"/>
                     <button name="action_draft" string="Reset To Draft" type="object" class="oe-link"
-                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                            invisible="state == 'draft'"/>
                     <button name="action_cancel" string="Cancel" type="object" class="oe-link"
-                            attrs="{'invisible': [('state', 'in', ['cancelled', 'posted'])]}"/>
+                            invisible="state in ['cancelled', 'posted']"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
                 </header>
                 <sheet>
-                    <widget name="web_ribbon" title="Paid" bg_color="bg-success" attrs="{'invisible': [('payment_state', '!=', 'paid')]}"/>
+                    <widget name="web_ribbon" title="Paid" bg_color="bg-success" invisible="payment_state != 'paid'"/>
                     <field name="payment_state" invisible="1"/>
-                    <widget name="web_ribbon" title="Partial" bg_color="bg-warning" attrs="{'invisible': [('payment_state', '!=', 'partial')]}"/>
+                    <widget name="web_ribbon" title="Partial" bg_color="bg-warning" invisible="payment_state != 'partial'"/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
@@ -41,7 +41,7 @@
                     <notebook>
                         <page name="product_info" string="Order Lines">
                             <field name="invoice_line_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="invoice_id" invisible="0"/>
                                     <field name="product_type"/>
                                     <field name="product_id"/>
@@ -50,7 +50,7 @@
                                     <field name="currency_id" invisible="1"/>
                                     <field name="taxes_id" widget="many2many_tags"/>
                                     <field name="total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer">
                                 <field name="untaxed_amount" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1" readonly="1"/>
@@ -69,7 +69,7 @@
         <field name="name">school.invoice.tree</field>
         <field name="model">school.invoice</field>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
+            <list decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
                 <field name="name"/>
                 <field name="parent_id"/>
                 <field name="decoration_due_date" invisible="1"/>
@@ -83,7 +83,7 @@
                 <field name="state" widget="badge" decoration-info="state == 'draft'"
                                                    decoration-success="state == 'posted'"
                                                    decoration-muted="state == 'cancelled'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -93,7 +93,7 @@
     <record id="action_school_invoice" model="ir.actions.act_window">
         <field name="name">Our Invoices</field>
         <field name="res_model">school.invoice</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new invoice !  

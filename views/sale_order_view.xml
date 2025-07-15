@@ -8,13 +8,13 @@
             <form string="Product Sale Order">
                 <header>
                     <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                            invisible="state != 'draft'"/>
                     <button name="action_create_invoice" string="Create Invoice" type="object" class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                            invisible="state != 'confirmed'"/>
                     <button name="action_draft" string="Set to draft" type="object" class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                            invisible="state != 'cancelled'"/>
                     <button name="action_cancel" string="Cancel" type="object" class="oe-link"
-                            attrs="{'invisible': [('state', '=', 'cancelled')]}"/>
+                            invisible="state == 'cancelled'"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                 </header>
                 <sheet>
@@ -28,12 +28,12 @@
                     </div>
                     <group>
                         <field name="from_parent_form" invisible="1"/>
-                        <field name="parent_id" attrs="{'readonly': [('from_parent_form', '=', True)]}"/>
+                        <field name="parent_id" invisible="from_parent_form == True"/>
                     </group>
                     <notebook>
                         <page string="Order Lines">
                             <field name="order_line_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="product_type"/>
                                     <field name="product_id"/>
                                     <field name="quantity"/>
@@ -42,7 +42,7 @@
                                     <field name="taxes_id" widget="many2many_tags"/>
                                     <field name="taxes_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                     <field name="total"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                </tree>
+                                </list>
                             </field>
                             <group class="oe_subtotal_footer">
                                 <field name="untaxed_total" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-bf="1"/>
@@ -73,7 +73,7 @@
         <field name="name">school.sale.order.tree</field>
         <field name="model">school.sale.order</field>
         <field name="arch" type="xml">
-            <tree string="Product Sale Orders" decoration-info="state == 'confirmed'"
+            <list string="Product Sale Orders" decoration-info="state == 'confirmed'"
                                                decoration-danger="state == 'cancelled'">
                 <field name="name"/>
                 <field name="parent_id"/>
@@ -82,7 +82,7 @@
                 <field name="state" widget="badge"
                                     decoration-info="state == 'confirmed'"
                                     decoration-danger="state == 'cancelled'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -93,7 +93,7 @@
         <field name="name">Our Sale Orders</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.sale.order</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="domain"></field>
         <field name="context"></field>
         <field name="help" type="html">

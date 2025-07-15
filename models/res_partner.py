@@ -77,7 +77,7 @@ class ResPartner(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'View Children',
             'res_model': 'school.student',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target': 'current', #to open in new view
             'domain': [('parent_id', '=', self.id)],
             'context': {
@@ -90,7 +90,7 @@ class ResPartner(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'View Invoices',
             'res_model': 'account.move',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target': 'current', #to open in new view
             'domain': [('partner_id', '=', self.id), ('move_type', '=', 'out_invoice')],
             'context': {

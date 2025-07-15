@@ -47,7 +47,7 @@
         <field name="name">school.product.tree</field>
         <field name="model">school.product</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="reference"/>
                 <field name="product_type"/>
                 <field name="name"/>
@@ -59,7 +59,7 @@
                                     decoration-danger="state == 'out_of_stock'"
                                     decoration-warning="stock_warning == True" 
                                     decoration-success="state == 'available'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -70,7 +70,7 @@
         <field name="name">Our products</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.product</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new product !  

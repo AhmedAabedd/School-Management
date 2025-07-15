@@ -112,7 +112,7 @@ class SchoolSaleOrder(models.Model):
             'name': 'Invoices',
             'res_model': 'school.invoice',
             'domain': [('sale_order_id', '=', self.id)],
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target':'current',
             'context': {}
         }

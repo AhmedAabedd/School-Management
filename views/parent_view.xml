@@ -6,12 +6,12 @@
         <field name="name">school.parent.tree</field>
         <field name="model">school.parent</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="reference"/>
                 <!--<field name="name"/>-->
                 <!--<field name="phone"/>-->
                 <field name="personnal_adress"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -29,7 +29,7 @@
                         </button>
                         <button class="oe_stat_button" type="object" name="action_view_sale_order"
                             groups="sales_team.group_sale_salesman"
-                            icon="fa-usd" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                            icon="fa-usd" invisible="is_second_responsible == True">
                             <field string="Sales" name="sale_order_count" widget="statinfo"/>
                         </button>
                         <!--<button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_partner_invoices" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
@@ -58,9 +58,9 @@
                             <group>
                                 <group string="Personal &amp; Professional Info">
                                     <!--<field name="title"/>-->
-                                    <field name="job_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
-                                    <field name="establishment" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
-                                    <field name="family_situation_id" attrs="{'invisible':[('is_second_responsible','=',True)]}"/>
+                                    <field name="job_id" invisible="is_second_responsible == True"/>
+                                    <field name="establishment" invisible="is_second_responsible == True"/>
+                                    <field name="family_situation_id" invisible="is_second_responsible == True"/>
                                 </group>
                                 <group string="Address Information">
                                     <!--<field name="country_id" placeholder="Country"/>
@@ -81,24 +81,24 @@
                         </page>
                         <!--<page name="Children" attrs="{'invisible':[('is_second_responsible','=',True)]}">
                             <field name="main_children_ids">
-                                <tree>
+                                <list>
                                     <field name="student_name"/>
                                     <field name="second_responsible_ids" widget="many2many_tags"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page name="Children" attrs="{'invisible':[('is_second_responsible','=',False)]}">
                             <field name="second_children_ids">
-                                <tree>
+                                <list>
                                     <field name="student_name"/>
                                     <field name="responsible_id"/>
-                                </tree>
+                                </list>
                             </field>
 
                         </page>-->
-                        <page name="Sale Orders" attrs="{'invisible': [('is_second_responsible', '=', True)]}">
+                        <page name="Sale Orders" invisible="is_second_responsible == True">
                             <field name="sale_order_ids">
-                                <tree create="0" edit="0" decoration-info="state == 'confirmed'"
+                                <list create="0" edit="0" decoration-info="state == 'confirmed'"
                                                           decoration-success="state == 'paid'"
                                                           decoration-danger="state == 'cancelled'">
                                     <field name="parent_id"/>
@@ -109,7 +109,7 @@
                                                         decoration-info="state == 'confirmed'"
                                                         decoration-success="state == 'paid'"
                                                         decoration-danger="state == 'cancelled'"/>
-                                </tree>
+                                </list>
                             </field>
                             <!--<button %name="(action_create_saleorder)d" string="Create sale order" type="action" class="oe_highlight"/>-->
                             <button name="action_create_sale_order" string="Create sale order" type="object" class="oe_highlight"/>
@@ -127,7 +127,7 @@
         <field name="name">Our parents</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.parent</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="domain">[('is_second_responsible','=',False)]</field>
         <field name="context">{'from_parent': True}</field>
         <field name="help" type="html">

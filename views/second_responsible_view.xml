@@ -5,7 +5,7 @@
         <field name="name">Our Second Responsibles</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.parent</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="domain">[('is_second_responsible','=',True)]</field>
         <field name="context">{'from_second_responsible': True}</field>
         <field name="help" type="html">

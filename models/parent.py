@@ -143,7 +143,7 @@ class SchoolParent(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'View Sale Order',
             'res_model': 'school.sale.order',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target': 'current', #to open in new view
             'domain': [('parent_id', '=', self.id)],
             'context': {

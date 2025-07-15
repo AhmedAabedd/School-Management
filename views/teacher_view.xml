@@ -38,14 +38,14 @@
                         </page>
                         <page name="teacher_academic_career" string="Academic Career">
                             <field name="school_history_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="refers_to" invisible="1"/>
                                     <field name="teacher_id" invisible="1"/>
                                     <field name="school_year_id"/>
                                     <field name="subject_ids" widget="many2many_tags"/>
                                     <field name="teaching_hours"/>
                                     <field name="notes"/>   
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -61,7 +61,7 @@
         <field name="name">Our teachers</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.teacher</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="context">{'is_teacher_action': True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

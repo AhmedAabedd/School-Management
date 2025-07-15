@@ -6,11 +6,11 @@
         <field name="name">school.attendance.tree</field>
         <field name="model">school.attendance</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="date"/>
                 <field name="subject_id"/>
                 <field name="group_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -29,11 +29,11 @@
                     <notebook>
                         <page string="Students list">
                             <field name="attendance_line_ids">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="attendance_id" invisible="0"/>
                                     <field name="student_id"/>
                                     <field name="is_present"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -50,7 +50,7 @@
         <field name="name">Our attendance</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.attendance</field>
-        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_mode">list,kanban,form</field>
         <field name="context"></field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
