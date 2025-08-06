@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="school_student_01" model="school.student">
+            <field name="student_name">Student 01</field>
+            <field name="birth_date">2000-01-01</field>
+            <field name="gender">male</field>
+            <field name="parent_id">73</field>
+        </record>
+    </data>
+
+</odoo>

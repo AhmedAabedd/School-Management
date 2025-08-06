@@ -14,6 +14,7 @@
     ],
     'data': ['security/ir.model.access.csv',
              'data/data.xml',
+             'data/school_student.xml',
              'views/student_view.xml',
              'views/parent_view.xml',
              'views/teacher_view.xml',

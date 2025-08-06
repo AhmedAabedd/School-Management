@@ -18,7 +18,7 @@
                 <tbody>
                     <t t-foreach="state.records" t-as="record" t-key="record.id">
                         <tr>
-                            <td><t t-esc="record.id"></t></td>
+                            <td><t t-esc="record.reference"></t></td>
                             <td><t t-esc="record.student_name"></t></td>
                             <td><t t-esc="record.age"></t></td>
                             <td><t t-esc="record.gender"></t></td>
