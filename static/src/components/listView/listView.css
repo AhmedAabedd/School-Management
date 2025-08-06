@@ -1,0 +1,56 @@
+.o_list_view {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.o_list_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+}
+
+.o_list_column_header {
+    background-color: rgba(0, 221, 255);
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.o_list_column_header:hover {
+    background-color: rgb(0, 146, 168);
+}
+
+.o_list_table th, .o_list_table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.o_list_table td {
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.o_list_table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.o_list_table tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.o_list_table .highlight {
+    background-color: #ffeb3b; /* Yellow highlight */
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
