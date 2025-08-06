@@ -11,7 +11,7 @@ export class ListViewAction extends Component {
     setup() {
         this.state = useState(
             {
-                'records': []
+                records: []
             }
         );
         this.orm = useService("orm");
@@ -27,6 +27,29 @@ export class ListViewAction extends Component {
         console.log(result)
         this.state.records = result;
     };
+
+    async createRecord() {
+        await this.orm.create(
+            'school.student',
+            [{
+                "student_name": "Djaka May",
+                "birth_date": "2000-01-01",
+                "gender": "male",
+                "parent_id": 73,
+            }],
+            [],
+        )
+        this.loadRecords();
+    }
+
+    async deleteRecord(recordId) {
+        await this.orm.unlink(
+            'school.student',
+            [recordId],
+            [],
+        )
+        this.loadRecords();
+    }
 
     //async loadRecords() {
     //    await rpc("/web/dataset/call_kw/school.student/search_read", {
