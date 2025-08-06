@@ -25,6 +25,12 @@
                 action="action_school_attendance"
                 sequence="20"/>
 
+        <menuitem id="menu_student_list"
+                name="Students OWL"
+                parent="menu_student_root"
+                action="custom_list_view_action"
+                sequence="30"/>
+
 <!--Parents-->
     <menuitem id="menu_parent_root"
             name="Parents"

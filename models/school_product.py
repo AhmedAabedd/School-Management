@@ -12,7 +12,7 @@ class SchoolProduct(models.Model):
     _description = "School Product"
     
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(string="Product Name", required=True)
     reference = fields.Char(string="Reference", required=True)
     image = fields.Binary(string="Product Photo")
     product_type = fields.Selection([

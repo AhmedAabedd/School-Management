@@ -28,7 +28,8 @@
                     </div>
                     <group>
                         <field name="from_parent_form" invisible="1"/>
-                        <field name="parent_id" invisible="from_parent_form == True"/>
+                        <!--<field name="parent_id" readonly="from_parent_form == True"/>-->
+                        <field name="partner_id" readonly="from_parent_form == True"/>
                     </group>
                     <notebook>
                         <page string="Order Lines">
@@ -76,7 +77,8 @@
             <list string="Product Sale Orders" decoration-info="state == 'confirmed'"
                                                decoration-danger="state == 'cancelled'">
                 <field name="name"/>
-                <field name="parent_id"/>
+                <!--<field name="parent_id"/>-->
+                <field name="partner_id"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 <field name="state" widget="badge"

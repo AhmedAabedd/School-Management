@@ -41,7 +41,7 @@
                                 <group name="identify" string="IDENTIFY">
                                     <field name="gender"/>
                                     <field name="birth_date" placeholder="MM/DD/YYYY"/>
-                                    <field name="age" force_save="1" readonly="1"/>
+                                    <field name="age" force_save="1" readonly="1" invisible="not birth_date"/>
                                     <field name="phone"/>
                                     <field name="mail"/>
                                 </group>
@@ -129,5 +129,10 @@
                 Create a new student !  
             </p>
         </field>
+    </record>
+
+    <record id="custom_list_view_action" model="ir.actions.client">
+        <field name="name">Custom student list view</field>
+        <field name="tag">school.action_list_view</field>
     </record>
 </odoo>

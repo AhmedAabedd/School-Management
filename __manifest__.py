@@ -29,6 +29,16 @@
              'views/res_partner_view.xml',
              'views/menu.xml'
     ],
+    'assets': {
+        'web.assets_backend': [
+            'school/static/src/components/listView/listView.js',
+            'school/static/src/components/listView/listView.xml',
+            'school/static/src/components/listView/listView.css',
+        ],
+        'web.assets_qweb': [
+            'school/static/src/xml/school.xml',
+        ],
+    },
     'demo': [],
     'qweb': [],
     'installable': True,

@@ -14,8 +14,13 @@ class SchoolSaleOrder(models.Model):
 
     name = fields.Char(string="Ref", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
-    parent_id = fields.Many2one('school.parent', string='Parent name', required=True,
-                                domain="[('is_second_responsible', '=', False)]")
+    parent_id = fields.Many2one('school.parent', string='Parent name', domain="[('is_second_responsible', '=', False)]")
+    partner_id = fields.Many2one(
+        'res.partner',
+        domain="[('is_school_parent', '=', True), ('is_second_responsible', '=', False)]",
+        string="Parent Name",
+        required=True
+    )
     
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -136,7 +141,8 @@ class SchoolSaleOrder(models.Model):
             'target': 'current',#to open in form
             'context': {
                 'default_sale_order_id': self.id,
-                'default_parent_id': self.parent_id.id,
+                #'default_parent_id': self.parent_id.id,
+                'default_partner_id': self.partner_id.id,
                 'default_currency_id': self.currency_id.id,
                 'default_untaxed_amount': self.untaxed_total,
                 'default_taxes_amount': self.taxes_total,
@@ -166,7 +172,7 @@ class SaleOrderLine(models.Model):
     unit_price = fields.Float(related='product_id.unit_price', store=True)
     taxes_id = fields.Many2many('account.tax', related="product_id.taxes_id")
 
-    quantity = fields.Integer(string="Quantity", default=0)
+    quantity = fields.Integer(string="Quantity", default=1)
     total = fields.Float(string="Subtotal", compute="_compute_line_total", store=True)
 
     taxes_amount = fields.Float(string="Taxes Amount", compute="_compute_taxes_amount", store=1)

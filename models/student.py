@@ -46,7 +46,8 @@ class SchoolStudent(models.Model):
     parent_id = fields.Many2one(
         'res.partner',
         string="Parent Name",
-        domain="[('is_school_parent', '=', True), ('is_second_responsible', '=', False)]"
+        domain="[('is_school_parent', '=', True), ('is_second_responsible', '=', False)]",
+        required=True
     )
 
     relation_id = fields.Many2one('responsible.relation', string="Relation")
@@ -120,6 +121,7 @@ class SchoolStudent(models.Model):
     #Assinging responsible Address to student Address infos
     @api.onchange('parent_id','use_responsible_address')
     def onchange_use_responsible_address(self):
+        print("///////////////////////////////  INSIDE onchange_use_responsible_address //////////////////////////")
         if self.parent_id and self.use_responsible_address:
             self.nationality_id = self.parent_id.country_id.id
             self.city_id = self.parent_id.state_id.id
@@ -132,7 +134,7 @@ class SchoolStudent(models.Model):
             self.street = ''
     
     #Age auto calculating
-    @api.onchange('birth_date')
+    @api.depends('birth_date')
     def compute_age(self):
         today = datetime.today()
         for rec in self:
@@ -140,15 +142,14 @@ class SchoolStudent(models.Model):
                 delta = today.year - rec.birth_date.year - ((today.month, today.day) < (rec.birth_date.month, rec.birth_date.day))
                 rec.age = delta
 
+    def _generate_reference(self):
+        return self.env['ir.sequence'].next_by_code('school.student.sequence') or _('New')
+
     @api.model
     def create(self, vals):
-        #assign default note if it's empty
-        if not vals.get('skill') or vals.get('skill') == "Enter student's skills...":
-            vals['skill'] = 'Have no skills  :('
-        #create reference
-        if vals.get('reference', _('New')) == _('New'):
-            vals['reference'] = self.env['ir.sequence'].next_by_code('school.student.sequence') or _('New')
-        res = super(SchoolStudent , self).create(vals)
+        vals.setdefault('reference', self._generate_reference())
+        vals.setdefault('skill', 'Have no skills :(')
+        res = super().create(vals)
         return res
     
 

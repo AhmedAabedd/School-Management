@@ -27,7 +27,8 @@
                         </h1>
                         <group>
                             <group>
-                                <field name="parent_id"/>
+                                <!--<field name="parent_id"/>-->
+                                <field name="partner_id"/>
                                 <field name="sale_order_id" readonly="1" invisible="0"/>
                                 <field name="currency_id"/>
                             </group>
@@ -71,7 +72,8 @@
         <field name="arch" type="xml">
             <list decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'">
                 <field name="name"/>
-                <field name="parent_id"/>
+                <!--<field name="parent_id"/>-->
+                <field name="partner_id"/>
                 <field name="decoration_due_date" invisible="1"/>
                 <field name="due_date" decoration-warning="decoration_due_date == 'warning'"
                                        decoration-danger="decoration_due_date == 'danger'"/>

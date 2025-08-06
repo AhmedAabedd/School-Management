@@ -11,9 +11,10 @@ class SchoolInvoice(models.Model):
 
 
 
-    name = fields.Char(string="Reference", required=1, default=lambda self: _('New'))
+    name = fields.Char(string="Reference", required=True, default=lambda self: _('New'))
     sale_order_id = fields.Many2one('school.sale.order')
-    parent_id = fields.Many2one('school.parent', string="Customer", required=1, domain="[('is_second_responsible', '=', False)]")
+    parent_id = fields.Many2one('school.parent', string="Customer", domain="[('is_second_responsible', '=', False)]")
+    partner_id = fields.Many2one('res.partner', string="Customer", required=True, domain="[('is_school_parent', '=', True), ('is_second_responsible', '=', False)]")
     payment_date = fields.Date()
     due_date = fields.Date()
     currency_id = fields.Many2one('res.currency', string="Currency")
