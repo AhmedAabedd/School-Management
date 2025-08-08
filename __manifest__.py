@@ -35,6 +35,10 @@
             'school/static/src/components/listView/listView.js',
             'school/static/src/components/listView/listView.xml',
             'school/static/src/components/listView/listView.css',
+            'school/static/src/components/example/example.js',
+            'school/static/src/components/example/example.xml',
+            'school/static/src/components/child/child.js',
+            'school/static/src/components/child/child.xml',
         ],
         'web.assets_qweb': [
             'school/static/src/xml/school.xml',

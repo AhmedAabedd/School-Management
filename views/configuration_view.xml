@@ -274,7 +274,13 @@
         </field>
     </record>
 
-    <!--this is product action->
+    <!--this is OWL example action-->
+    <record id="action_school_owl_example" model="ir.actions.client">
+        <field name="name">OWL Example</field>
+        <field name="tag">school.action_example</field>
+    </record>
+
+    <!--this is product action-
     <record id="action_school_product" model="ir.actions.act_window">
         <field name="name">Our Products</field>
         <field name="type">ir.actions.act_window</field>

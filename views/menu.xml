@@ -187,6 +187,12 @@
                 parent="menu_Configuration_root"
                 action="action_school_familysituation"
                 sequence="90"/>
+        
+        <menuitem id="menu_example_owl"
+                name="OWL Example"
+                parent="menu_Configuration_root"
+                action="action_school_owl_example"
+                sequence="95"/>
 
     
 
