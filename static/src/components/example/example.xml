@@ -3,7 +3,14 @@
     <t t-name="school.Example" owl="1">
         <p>Hello OWL !</p>
         <button class="btn btn-primary">Click Me</button>
-        <Child title="'Child of Example'" list="['odoo', 'admin', 'owl']"/>
+        <Child title="'Child of Example'" list="['odoo', 'admin', 'owl']">
+            <t t-set-slot="slot_text">
+                <span>This is slot and it should come first</span>
+            </t>
+            <t t-set-slot="slot_button">
+                <button class="btn btn-secondary">Slot Button</button>
+            </t>
+        </Child>
     </t>
 
 </templates>

@@ -1,9 +1,13 @@
 <templates>
 
     <t t-name="school.Child" owl="1">
+        <t t-slot="slot_text"/>
         <p><t t-esc="props.title"/></p>
         <ol>
             <t t-foreach="props.list" t-as="item" t-key="item_index">
+                <li t-out="item"/>
+            </t>
+            <t t-foreach="props.slots" t-as="item" t-key="item_index">
                 <li t-out="item"/>
             </t>
         </ol>
